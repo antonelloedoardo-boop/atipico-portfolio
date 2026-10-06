@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="stella.png">
+<title>Atipico Portfolio</title>
+<meta name="description" content="Edoardo Antonello, co-owner and art director of Atipico: brand identity, art direction, posters and merch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: poster serigrafato su carta nera — due inchiostri (bianco coprente + rosso della stella),
+   segni di registro, stampa fuori registro sui titoli, retini a mezzitoni, inchiostro irregolare.
+   Colonna unica larga, archivio a griglia di stampe generate, dati in monospace. Look unico scuro. */
+:root {
+  --bg: #0b0a09;
+  --bg-2: #171513;
+  --ink: #ece5d5;
+  --ink-soft: #9b9487;
+  --line: #ece5d5;
+  --red: #ce0202;
+  --on-red: #f4eee2;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Courier Prime", "Courier New", Courier, monospace;
+  --f-mono: "Courier Prime", "Courier New", Courier, monospace;
+  --gutter: clamp(16px, 4vw, 48px);
+  --mis: -3px 2px 0 var(--red);           /* fuori registro */
+  /* scala tipografica — Big Shoulders: titoli · Familjen Grotesk: testi · JetBrains Mono: etichette */
+  --fs-1: clamp(2.8rem, 7vw, 5.5rem);      /* titolo di sezione */
+  --fs-2: clamp(1.8rem, 3.4vw, 2.6rem);    /* titolo di blocco */
+  --fs-3: clamp(1.35rem, 2.2vw, 1.75rem);  /* titolo di voce */
+  --fs-lead: clamp(1.35rem, 2.4vw, 1.9rem); /* frase d'apertura */
+  --fs-body: 1.0625rem;
+  --fs-small: .9375rem;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.55 var(--f-body);
+  padding-inline: var(--gutter);
+  padding-block: 0 48px;
+  overflow-x: hidden;
+}
+/* grana della carta + polvere d'inchiostro */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .13; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 -.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection { background: var(--red); color: var(--on-red); }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.wrap { max-width: 1280px; margin-inline: auto; }
+.mono { font-family: var(--f-mono); font-size: .8125rem; letter-spacing: .02em; }
+.label { font-family: var(--f-mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; }
+.inked { filter: url(#ink); }
+.fx { position: absolute; width: 0; height: 0; }
+
+/* segni di registro */
+.reg { position: absolute; width: 26px; height: 26px; color: var(--ink); opacity: .75; pointer-events: none; z-index: 2; }
+.reg.tl { top: 10px; left: 0; } .reg.tr { top: 10px; right: 0; }
+.reg.bl { bottom: 10px; left: 0; } .reg.br { bottom: 10px; right: 0; }
+.reg.red { color: var(--red); transform: translate(2px, -1px); opacity: .9; }
+
+/* header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--bg); border-bottom: 2px solid var(--line);
+  margin-inline: calc(var(--gutter) * -1); padding: 10px var(--gutter);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.logo img { height: 46px; width: auto; display: block; transition: transform .3s ease; }
+.logo:hover img { transform: rotate(-14deg) scale(1.06); }
+@media (prefers-reduced-motion: reduce) { .logo img { transition: none; } }
+.l, .k { fill: var(--logo-fg, var(--ink)); }
+.d { fill: var(--logo-bg, var(--bg)); }
+
+/* hero */
+.hero { position: relative; padding-block: clamp(40px, 6vw, 72px) 40px; }
+.hero > *:not(canvas):not(.reg) { position: relative; z-index: 1; }
+.hero-meta { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-inline: 38px; }
+.hero h1 { margin: 0; display: grid; gap: 14px; justify-items: start; }
+.logo3d { position: relative; display: block; width: min(100%, 1040px); aspect-ratio: 1080 / 640; max-width: 100%; }
+.logo3d > * { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.logo3d svg { inset: 7% 0; height: 86%; }
+#chrome { cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity .6s ease; }
+#chrome:active { cursor: grabbing; }
+.logo3d.ready #chrome { opacity: 1; }
+.logo3d.ready svg { visibility: hidden; }
+.hero h1 .tag { font: 500 .8125rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .14em; background: var(--red); color: var(--on-red); padding: 8px 10px; box-shadow: 3px 3px 0 var(--ink); }
+.hero-foot { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; margin-top: 36px; align-items: end; }
+.hero-foot p { margin: 0; max-width: 40ch; font-size: clamp(1.15rem, 2vw, 1.45rem); line-height: 1.35; font-weight: 500; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 2px solid var(--line); background: var(--bg); box-shadow: 5px 5px 0 var(--red); }
+.stats div { padding: 12px 14px; border-left: 2px solid var(--line); }
+.stats div:first-child { border-left: 0; }
+.stats b { display: block; font: 900 clamp(2rem, 4vw, 2.9rem)/1 var(--f-display); font-variant-numeric: tabular-nums; text-shadow: var(--mis); }
+@media (max-width: 640px) { nav ul { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; } nav { min-width: 0; max-width: 100%; } .top .wrap { flex-wrap: nowrap; } nav a { white-space: nowrap; } .hero-meta { padding-inline: 0; margin-top: 24px; } }
+@media (max-width: 760px) { .hero-foot { grid-template-columns: 1fr; } }
+
+/* nastro: fascia rossa stampata di traverso */
+.ticker { margin-inline: calc(var(--gutter) * -1.5); background: var(--red); color: var(--on-red); overflow: hidden; white-space: nowrap; transform: rotate(-1.2deg); margin-block: 10px 0; box-shadow: 0 6px 0 var(--ink); }
+.ticker-track { display: inline-flex; gap: 44px; padding: 11px 0; animation: run 38s linear infinite; }
+.ticker-track span { font: 900 1.35rem/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; display: inline-flex; align-items: center; gap: 44px; }
+.ticker-track span::before { content: ""; width: 22px; height: 25px; background: var(--bg); -webkit-mask: url("stella.png") center / contain no-repeat; mask: url("stella.png") center / contain no-repeat; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
+/* sezioni */
+section { padding-block: clamp(56px, 8vw, 104px) 0; scroll-margin-top: 40px; }
+.sec-head { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 16px 32px; flex-wrap: wrap; padding-bottom: 18px; margin-bottom: 30px; }
+/* filetto a retino al posto della riga */
+.sec-head::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 10px;
+  background: radial-gradient(circle, var(--red) 45%, transparent 48%) 0 0 / 7px 7px;
+  -webkit-mask: linear-gradient(90deg, #000 20%, transparent); mask: linear-gradient(90deg, #000 20%, transparent);
+}
+.sec-head h2 { margin: 0; font: 900 var(--fs-1)/.85 var(--f-display); text-transform: uppercase; text-wrap: balance; text-shadow: -4px 3px 0 var(--red); filter: url(#ink); }
+.sec-head p { margin: 0; max-width: 46ch; color: var(--ink); }
+
+/* prossime date */
+.dates { display: grid; }
+.date-row {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr) 170px; gap: 24px; align-items: center;
+  padding: 22px 0; border-bottom: 1px dashed var(--ink-soft);
+}
+.date-row .d { font: 900 3.6rem/.85 var(--f-display); font-variant-numeric: tabular-nums; color: var(--red); filter: url(#ink); }
+.date-row .d small { display: block; font: 500 .75rem/1.4 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; margin-top: 6px; color: var(--ink); }
+.date-row h3 { margin: 0 0 4px; font: 700 1.9rem/1 var(--f-display); text-transform: uppercase; }
+.date-row .lineup { margin: 0; font-weight: 500; }
+.date-row .where { color: var(--ink); }
+.status { justify-self: end; text-align: center; padding: 10px 14px; border: 2px solid var(--line); font-family: var(--f-mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; text-decoration: none; white-space: nowrap; }
+.status.open { background: var(--red); color: var(--on-red); border-color: var(--red); box-shadow: 3px 3px 0 var(--ink); }
+.status.open:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: 3px 3px 0 var(--red); }
+.status.sold { text-decoration: line-through; color: var(--ink); border-color: var(--ink-soft); border-style: dashed; }
+@media (max-width: 860px) {
+  .date-row { grid-template-columns: 96px minmax(0, 1fr); gap: 8px 18px; }
+  .date-row .d { font-size: 2.8rem; grid-row: span 3; align-self: start; }
+  .status { justify-self: start; }
+}
+
+/* archivio */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+.filters button {
+  font: 500 .75rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .1em;
+  background: transparent; color: var(--ink); border: 2px solid var(--line); padding: 9px 12px; cursor: pointer;
+}
+.filters button[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--on-red); }
+.filters button:hover:not([aria-pressed="true"]) { background: var(--bg-2); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 32px 22px; }
+.flyer { margin: 0; display: grid; gap: 10px; align-content: start; }
+.flyer canvas { width: 100%; aspect-ratio: 3 / 4; max-width: 100%; display: block; background: var(--bg-2); box-shadow: 0 0 0 1px #ffffff14; transition: transform .25s ease; }
+.flyer:hover canvas { transform: rotate(-1.4deg) translateY(-4px); }
+@media (prefers-reduced-motion: reduce) { .flyer canvas { transition: none; } .flyer:hover canvas { transform: none; } }
+.flyer figcaption { display: grid; gap: 4px; }
+.flyer .row { display: flex; justify-content: space-between; gap: 2px 12px; flex-wrap: wrap; }
+.flyer .row + .row { color: var(--ink); }
+.flyer h3 { margin: 0; font: 700 1.4rem/1.05 var(--f-display); text-transform: uppercase; }
+.flyer p { margin: 0; font-size: .9375rem; color: var(--ink); }
+
+/* manifesto */
+.manifesto { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); }
+.manifesto .lead { margin: 0; font: 900 clamp(1.8rem, 3.8vw, 3rem)/1.02 var(--f-display); text-transform: uppercase; text-wrap: balance; filter: url(#ink); }
+.manifesto { margin-bottom: 8px; }
+.manifesto .lead mark { background: var(--red); color: var(--on-red); padding-inline: .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.rules { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--line); }
+.rules li { display: grid; grid-template-columns: 22px 100px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px dashed var(--ink-soft); align-items: start; }
+.rules li::before { content: ""; width: 18px; height: 20px; margin-top: 2px; background: url("stella.png") center / contain no-repeat; }
+.rules b { font-family: var(--f-mono); font-size: .75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; padding-top: 3px; }
+.rules span { max-width: 52ch; }
+@media (max-width: 760px) { .manifesto { grid-template-columns: 1fr; } .rules li { grid-template-columns: 22px minmax(0, 1fr); } .rules span { grid-column: 2; } }
+
+/* contatti */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.big-mail { font: 900 clamp(1.9rem, 5.6vw, 4.4rem)/.95 var(--f-display); text-transform: uppercase; word-break: break-word; user-select: all; margin: 0 0 18px; text-shadow: -3px 2px 0 var(--red); filter: url(#ink); }
+.btn { font: 500 .8125rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .1em; padding: 13px 16px; border: 2px solid var(--red); background: var(--red); color: var(--on-red); cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 3px 3px 0 var(--ink); }
+.btn:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); box-shadow: 3px 3px 0 var(--red); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); box-shadow: 3px 3px 0 var(--red); }
+.btn.ghost:hover { background: var(--ink); color: var(--bg); }
+.contact .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.channels { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--line); }
+.channels li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px dashed var(--ink-soft); flex-wrap: wrap; }
+.channels li span:last-child { color: var(--ink); }
+.channels a:hover { color: var(--red); }
+@media (max-width: 760px) { .contact { grid-template-columns: 1fr; } }
+
+/* piede: barra colori e dati di stampa, come sul bordo di un foglio serigrafato */
+footer { position: relative; margin-top: clamp(64px, 9vw, 120px); padding-block: 48px 8px; display: grid; gap: 18px; }
+.colorbar { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--ink-soft); width: max-content; max-width: 100%; }
+.colorbar span { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-right: 1px solid var(--ink-soft); }
+.colorbar span:last-child { border-right: 0; }
+.colorbar i { width: 16px; height: 16px; display: inline-block; border: 1px solid var(--ink-soft); }
+.foot-row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--ink); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--red); color: var(--on-red); padding: 10px 16px; font-family: var(--f-mono); font-size: .8125rem; z-index: 60; box-shadow: 3px 3px 0 var(--ink); }
+/* sottotitoli di sezione */
+.sub { margin: 56px 0 18px; font: 900 var(--fs-2)/1 var(--f-display); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.sub::before { content: ""; width: 20px; height: 23px; flex: none; background: url("stella.png") center / contain no-repeat; }
+
+/* brand identity */
+.id-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.plate { margin: 0; border: 2px solid var(--line); display: grid; grid-template-rows: 1fr auto; background: var(--bg); }
+.plate-art { display: grid; place-items: center; padding: clamp(24px, 5vw, 64px); min-height: 180px; }
+.plate-art svg { width: 100%; max-width: 640px; height: auto; aspect-ratio: 1080 / 555; display: block; margin-inline: auto; overflow: visible; }
+.plate-art img { width: auto; height: auto; max-width: 100%; max-height: 320px; object-fit: contain; }
+/* logo e stella: le due didascalie condividono la stessa riga, quindi hanno la stessa altezza */
+.plate-logo, .plate-star { grid-row: span 2; grid-template-rows: subgrid; gap: 0; }
+.plate-tagline { grid-column: 1 / -1; grid-row: auto; }
+.tagline-art { background: var(--red); padding: clamp(28px, 6vw, 72px) clamp(18px, 5vw, 64px); display: grid; place-items: center; }
+.tagline { margin: 0; font: 900 clamp(2.6rem, 8.5vw, 7.4rem)/.86 var(--f-display); text-transform: uppercase; text-align: center; color: var(--bg); text-wrap: balance; letter-spacing: -.005em; filter: url(#ink); }
+.tagline em { font-style: normal; display: inline-block; background: var(--bg); color: var(--red); padding: 0 .12em .04em; transform: rotate(-2deg); }
+.tagline .tl-of { font-size: .55em; vertical-align: .32em; }
+.tagline .tl-star { font-size: .5em; vertical-align: .38em; }
+.plate figcaption { display: grid; gap: 4px; padding: 12px 14px; border-top: 2px solid var(--line); font-size: var(--fs-small); }
+.plate figcaption .label { color: var(--red); }
+@media (max-width: 760px) { .id-grid { grid-template-columns: 1fr; } }
+
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+.swatch { display: grid; gap: 4px; align-content: start; font-size: .9375rem; }
+.swatch i { display: block; aspect-ratio: 16 / 9; border: 2px solid var(--line); margin-bottom: 8px; }
+.swatch b { font: 700 1.3rem/1 var(--f-display); text-transform: uppercase; }
+.swatch span:last-child { color: var(--ink); }
+.chrome-swatch { background: linear-gradient(180deg, #f7f9fc 0%, #dde4ee 30%, #8d99ab 46%, #1b1e24 50%, #3a3029 54%, #b99c7c 64%, #f3e6d2 80%, #ffffff 100%); }
+
+.type-rows { border-top: 2px solid var(--line); }
+.type-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: baseline; padding: 16px 0; border-bottom: 1px dashed var(--ink-soft); }
+.type-row .mono { color: var(--ink); }
+.spec { min-width: 0; overflow-wrap: anywhere; }
+.spec-display { font: 900 clamp(2.4rem, 6vw, 4.6rem)/.9 var(--f-display); text-transform: uppercase; text-shadow: var(--mis); }
+.spec-body { font: 500 clamp(1.2rem, 2.4vw, 1.7rem)/1.3 var(--f-body); }
+.spec-mono { font: 500 clamp(1rem, 2vw, 1.35rem)/1.3 var(--f-mono); color: var(--red); }
+@media (max-width: 640px) { .type-row { grid-template-columns: 1fr; } }
+
+.elements { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+.el { display: grid; gap: 6px; align-content: start; font-size: .9375rem; }
+.el > span { color: var(--ink); }
+.el-art { aspect-ratio: 4 / 3; border: 2px solid var(--line); display: grid; place-items: center; position: relative; overflow: hidden; margin-bottom: 6px; }
+.el-halftone::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, var(--red) 46%, transparent 49%) 0 0 / 12px 12px; -webkit-mask: radial-gradient(circle at 35% 55%, #000 10%, transparent 72%); mask: radial-gradient(circle at 35% 55%, #000 10%, transparent 72%); }
+.el-halftone::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, var(--ink) 40%, transparent 44%) 4px 3px / 12px 12px; -webkit-mask: radial-gradient(circle at 70% 40%, #000 5%, transparent 55%); mask: radial-gradient(circle at 70% 40%, #000 5%, transparent 55%); }
+.el-mis span { font: 900 clamp(3.4rem, 7vw, 5rem)/1 var(--f-display); text-shadow: -6px 4px 0 var(--red); filter: url(#ink); }
+.el-stars span { font: 900 clamp(1.5rem, 3vw, 2.1rem)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; color: var(--ink); white-space: nowrap; }
+.el-reg svg { position: absolute; width: 70px; height: 70px; color: var(--ink); }
+.el-reg svg.r { color: var(--red); transform: translate(5px, -3px); }
+.el-cat span { font: 500 clamp(1.4rem, 3vw, 2rem)/1 var(--f-mono); background: var(--red); color: var(--on-red); padding: 8px 12px; box-shadow: 4px 4px 0 var(--ink); }
+
+.influences { margin-bottom: 34px; }
+.showcase { margin: 18px 0 0; display: grid; grid-template-columns: 1fr; border: 2px solid var(--line); background: var(--bg); box-shadow: 6px 6px 0 var(--red); }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; padding: clamp(14px, 2.4vw, 26px); }
+.pair-item { display: grid; gap: 8px; min-width: 0; }
+.pair-item .label { color: var(--ink); }
+.pair-img { aspect-ratio: 1; background: var(--bg-2); display: grid; place-items: center; overflow: hidden; border: 2px solid var(--line); }
+.pair-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pair-white { background: #fff; }
+.pair-white img { object-fit: contain; }
+.pair-photo img { object-position: 50% 40%; }
+.pair-arrow { font: 900 2.4rem/1 var(--f-display); color: var(--red); }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } .pair-arrow { justify-self: center; transform: rotate(90deg); } }
+.showcase figcaption { padding: clamp(18px, 3vw, 34px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 32px; align-content: start; border-top: 2px solid var(--line); }
+.sub-first { margin-top: 0; }
+.showcase figcaption .label { color: var(--red); }
+
+.showcase p { margin: 0; max-width: 48ch; }
+.showcase p + p { color: var(--ink); }
+@media (max-width: 760px) { .showcase figcaption { grid-template-columns: 1fr; } }
+
+.camp-intro { margin: -6px 0 26px; max-width: 60ch; color: var(--ink); }
+.campaigns { display: grid; gap: clamp(40px, 6vw, 72px); margin-bottom: 64px; }
+.camp { display: grid; gap: 16px; }
+.camp-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 8px 32px; align-items: end; border-bottom: 2px solid var(--line); padding-bottom: 12px; }
+.camp-head h4 { margin: 0; font: 700 var(--fs-3)/1 var(--f-display); text-transform: uppercase; letter-spacing: .01em; }
+.camp-head p { margin: 0; color: var(--ink); max-width: 60ch; }
+.camp-imgs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.camp-imgs img { width: 100%; height: auto; display: block; background: var(--bg-2); }
+.camp-fixed img { aspect-ratio: 1347 / 1679; object-fit: cover; }
+@media (max-width: 760px) { .camp-head { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .camp-imgs { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; } .camp-imgs img { scroll-snap-align: start; } }
+
+.past { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.past video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; display: block; background: var(--bg-2); }
+@media (max-width: 900px) { .past { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.event { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
+.event-poster { width: 100%; height: auto; display: block; border: 2px solid var(--line); box-shadow: 7px 7px 0 var(--red); }
+.event-info { display: grid; gap: 16px; align-content: start; }
+.event-tag { justify-self: start; background: var(--red); color: var(--on-red); padding: 6px 9px; }
+.event-title { margin: 0; font: 900 var(--fs-2)/1 var(--f-display); text-transform: uppercase; }
+.event-facts { margin: 0; border-top: 2px solid var(--line); }
+.event-facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--ink-soft); align-items: baseline; }
+.event-facts dt { color: var(--ink); }
+.event-facts dd { margin: 0; font-size: var(--fs-body); }
+.event-btn { justify-self: start; margin-top: 6px; }
+@media (max-width: 760px) { .event { grid-template-columns: 1fr; } .event-poster { max-width: 480px; } }
+
+.follow-stars { display: flex; flex-wrap: wrap; gap: clamp(28px, 6vw, 72px); }
+.fstar { display: grid; justify-items: center; gap: 8px; text-decoration: none; color: var(--ink); }
+.fstar img { width: clamp(96px, 12vw, 140px); height: auto; display: block; transition: transform .3s ease; }
+.fstar:hover img, .fstar:focus-visible img { transform: rotate(-14deg) scale(1.08); }
+.fstar span { color: var(--ink); }
+.fstar:hover b { color: var(--red); }
+@media (prefers-reduced-motion: reduce) { .fstar img { transition: none; } }
+.ig { border: 2px solid var(--line); background: var(--bg); box-shadow: 6px 6px 0 var(--red); max-width: 900px; }
+.ig-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px 20px; align-items: start; padding: 16px; border-bottom: 2px solid var(--line); }
+.ig-avatar { width: 86px; height: 86px; border-radius: 50%; background: #fff; border: 3px solid var(--ink-soft); display: grid; place-items: center; }
+.ig-stats { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--fs-small); color: var(--ink); }
+.ig-stats strong { color: var(--ink); font-weight: 700; }
+.ig-bio { margin: 2px 0 0; font-size: var(--fs-small); line-height: 1.45; }
+.ig-name { font-weight: 700; }
+.ig-bio a { color: var(--ink); text-decoration-color: var(--red); }
+.ig-avatar img { width: 44px; height: auto; }
+.ig-id { display: grid; gap: 8px; min-width: 0; }
+.ig-id b { font: 700 var(--fs-3)/1 var(--f-display); text-transform: none; }
+
+.ig-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
+.ig-tile { display: block; aspect-ratio: 1; overflow: hidden; background: var(--bg-2); }
+.ig-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease, filter .3s ease; }
+.ig-tile:hover img { transform: scale(1.04); filter: brightness(.8); }
+@media (prefers-reduced-motion: reduce) { .ig-tile img { transition: none; } }
+@media (max-width: 600px) { .ig-head { grid-template-columns: auto minmax(0, 1fr); } .ig-follow { grid-column: 1 / -1; justify-self: start; } }
+
+[hidden] { display: none !important; }
+/* home: logo che gira + 5 tasti, tutto nella prima schermata */
+.hero { min-height: calc(100svh - 70px); display: flex; flex-direction: column; justify-content: center; }
+.hero h1 { justify-items: center; }
+.hero .logo3d { width: clamp(min(100%, 260px), calc((100svh - 360px) * 1080 / 640), min(100%, 980px)); margin-inline: auto; }
+.landing-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: clamp(12px, 3vh, 32px); }
+.landing-nav a { display: grid; justify-items: center; align-content: center; gap: 10px; padding: clamp(14px, 2.4vh, 24px) 10px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); text-decoration: none; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
+.landing-nav img { width: clamp(30px, 4vw, 48px); height: auto; transition: transform .3s ease; }
+.landing-nav b { font: 900 var(--fs-3)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.landing-nav a:hover, .landing-nav a:focus-visible { background: var(--red); box-shadow: 5px 5px 0 var(--ink); transform: translate(-2px, -2px); }
+.landing-nav a:hover img, .landing-nav a:focus-visible img { transform: rotate(-16deg) scale(1.1); filter: brightness(0) invert(1); }
+@media (max-width: 700px) { .landing-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); } .landing-nav a:last-child { grid-column: 1 / -1; } }
+@media (prefers-reduced-motion: reduce) { .landing-nav a, .landing-nav img { transition: none; } }
+/* pagine: link per tornare alla home e per la sezione successiva */
+.me { margin-bottom: clamp(40px, 6vw, 72px); }
+.me .intro, .me .intro-body { padding-inline: 0; }
+.page-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.page-nav.head { margin-bottom: 28px; }
+.page-nav.bottom { margin-top: clamp(48px, 7vw, 88px); border-top: 2px solid var(--line); padding-top: 18px; }
+.page-nav a { font: 500 .8125rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.page-nav a:hover { color: var(--red); }
+.page-nav img { width: 18px; height: auto; }
+
+/* hamburger + menu a schermo intero */
+.burger { width: 46px; height: 46px; display: grid; align-content: center; justify-items: center; gap: 6px; background: transparent; border: 2px solid var(--line); cursor: pointer; padding: 0; margin-left: auto; }
+.burger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: transform .25s ease, opacity .2s ease; }
+.burger:hover { background: var(--red); border-color: var(--red); }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+.menu { position: fixed; inset: 0; z-index: 19; background: var(--bg); display: grid; place-items: center; padding: 90px var(--gutter) 40px; overflow-y: auto; }
+.menu ul { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(6px, 1.6vh, 16px); }
+.menu a { display: inline-flex; align-items: center; gap: .4em; font: 900 clamp(2.4rem, 7vh, 4.6rem)/1 var(--f-display); text-transform: uppercase; color: var(--ink); text-decoration: none; }
+.menu a img { width: .55em; height: auto; transition: transform .3s ease; }
+.menu a:hover, .menu a[aria-current] { color: var(--red); }
+.menu a:hover img { transform: rotate(-16deg) scale(1.1); }
+body.menu-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .burger span, .menu a img { transition: none; } }
+/* home minimale: solo logo che gira, stelle e hamburger */
+body[data-view="home"] .top { border-bottom-color: transparent; background: transparent; }
+body[data-view="home"] .hero-meta, body[data-view="home"] .hero .reg, body[data-view="home"] footer { display: none; }
+.landing-nav a { border: 0; background: transparent; padding: 6px 4px; gap: 12px; }
+.landing-nav img { width: clamp(48px, 6vw, 84px); }
+.landing-nav b { font: 500 .8125rem/1 var(--f-mono); letter-spacing: .14em; }
+.landing-nav a:hover, .landing-nav a:focus-visible { background: transparent; box-shadow: none; transform: none; color: var(--red); }
+.landing-nav a:hover img, .landing-nav a:focus-visible img { transform: rotate(-16deg) scale(1.12); filter: none; }
+
+.ticker { margin-top: 40px; }
+/* locandine */
+.posters-head { display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; margin: 56px 0 22px; scroll-margin-top: 80px; }
+.posters-head .sub { margin: 0; }
+.posters-head .filters { margin: 0; }
+.flyer-open { all: unset; display: block; cursor: zoom-in; }
+.flyer-open:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.flyer img { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; background: var(--bg-2); display: block; transition: transform .25s ease; }
+.flyer:hover img { transform: rotate(-1.4deg) translateY(-4px); }
+
+#viewer { border: 0; padding: 0; background: transparent; color: var(--ink); max-width: min(96vw, 900px); max-height: 96vh; }
+#viewer::backdrop { background: rgba(8, 7, 6, .92); }
+.viewer-in { display: grid; gap: 14px; justify-items: center; }
+#viewer-stage canvas, #viewer-stage img { height: min(76vh, 1000px); width: auto; max-width: 92vw; aspect-ratio: 3 / 4; display: block; object-fit: contain; }
+.viewer-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; flex-wrap: wrap; width: 100%; }
+#viewer-cap { display: grid; gap: 2px; }
+#viewer-cap b { font: 900 1.8rem/1 var(--f-display); text-transform: uppercase; }
+#viewer-cap .mono { color: var(--ink); }
+.viewer-nav { display: flex; gap: 10px; }
+
+/* merch */
+.merch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 28px 22px; }
+.merch { display: grid; gap: 6px; align-content: start; }
+.merch-art { position: relative; aspect-ratio: 1; background: var(--bg-2); border: 2px solid var(--line); display: grid; place-items: center; margin-bottom: 6px; overflow: hidden; }
+.merch-art svg { width: 86%; height: 86%; }
+.merch-art img { width: 100%; height: 100%; object-fit: cover; }
+.merch-status { position: absolute; top: 10px; left: 10px; background: var(--red); color: var(--on-red); padding: 5px 8px; }
+.merch h3 { margin: 0; font: 900 1.5rem/1 var(--f-display); text-transform: uppercase; }
+.merch p { margin: 0; color: var(--ink); font-size: .9375rem; }
+.merch .row { display: flex; justify-content: space-between; gap: 8px; }
+
+.promo { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; border-top: 2px solid var(--line); }
+.steps li { counter-increment: step; display: grid; grid-template-columns: 56px 130px minmax(0, 1fr); gap: 14px; padding: 16px 0; border-bottom: 1px dashed var(--ink-soft); align-items: baseline; }
+.steps li::before { content: counter(step, decimal-leading-zero); font: 900 2.2rem/.8 var(--f-display); color: var(--red); filter: url(#ink); }
+.steps b { font-family: var(--f-mono); font-size: .75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; }
+.promo-side { display: grid; gap: 18px; }
+.stats-promo b { font-size: clamp(1.8rem, 3.4vw, 2.5rem); }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { border: 2px solid var(--line); padding: 7px 10px; }
+@media (max-width: 860px) { .promo { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .steps li { grid-template-columns: 48px minmax(0, 1fr); } .steps li span { grid-column: 2; } }
+/* portfolio: firma, presentazione, scheda progetto */
+.logo { display: flex; align-items: center; gap: 12px; line-height: 1; text-decoration: none; }
+.who { display: grid; gap: 3px; }
+.who b { font: 900 1.35rem/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.who span { font: 500 .6875rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--ink); }
+@media (max-width: 640px) { .who span { display: none; } }
+.intro { margin: 8px 0 26px; max-width: 38ch; font: 700 var(--fs-lead)/1.15 var(--f-display); text-transform: uppercase; text-wrap: balance; padding-inline: 38px; }
+.intro-body { margin: -10px 0 26px; max-width: 60ch; font-size: var(--fs-body); line-height: 1.6; color: var(--ink); padding-inline: 38px; }
+@media (max-width: 640px) { .intro-body { padding-inline: 0; } }
+.intro b { color: var(--red); }
+.intro em { font-style: normal; text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: .12em; text-underline-offset: .12em; }
+@media (max-width: 640px) { .intro { padding-inline: 0; } }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 34px 0 0; border: 2px solid var(--line); box-shadow: 5px 5px 0 var(--red); background: var(--bg); }
+.facts div { padding: 14px 16px; border-left: 2px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.facts div:first-child { border-left: 0; }
+.facts dt { color: var(--red); }
+.facts dd { margin: 0; font-size: .9375rem; }
+@media (max-width: 900px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .facts div:nth-child(3) { border-left: 0; } .facts div:nth-child(n+3) { border-top: 2px solid var(--line); } }
+@media (max-width: 520px) { .facts { grid-template-columns: 1fr; } .facts div { border-left: 0; } .facts div + div { border-top: 2px solid var(--line); } }
+
+.statement { margin: 40px 0 0; max-width: 38ch; font: 700 var(--fs-lead)/1.15 var(--f-display); text-transform: uppercase; text-wrap: balance; }
+.statement mark { background: var(--red); color: var(--on-red); padding-inline: .1em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.media { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 48px calc(var(--gutter) * -0.5) 0; }
+.media .m { margin: 0; position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-2); }
+.media img, .media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media .m:nth-child(odd) { transform: translateY(18px); }
+.films { display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(14px, 3vw, 36px); margin: 64px 0 0; }
+.film { position: relative; margin: 0; width: min(100%, 400px, calc(80vh * 9 / 16)); aspect-ratio: 9 / 16; background: #000; border: 2px solid var(--line); box-shadow: 7px 7px 0 var(--red); overflow: hidden; }
+.film:nth-child(2) { transform: translateY(28px); }
+.film video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.film-hit { all: unset; position: absolute; inset: 0; cursor: pointer; display: flex; align-items: flex-end; padding: 14px; }
+.film-hit:focus-visible { outline: 3px solid var(--red); outline-offset: -5px; }
+.film-tag { display: inline-flex; align-items: center; gap: 8px; font: 500 .75rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; background: var(--red); color: var(--on-red); padding: 8px 11px; box-shadow: 3px 3px 0 var(--ink); transition: transform .15s ease; }
+.film-hit:hover .film-tag { transform: translate(-2px, -2px); }
+.film-hit[aria-pressed="true"] .film-tag { background: var(--ink); color: var(--bg); box-shadow: 3px 3px 0 var(--red); }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
+.eq b { width: 3px; height: 30%; background: currentColor; }
+.film-hit[aria-pressed="true"] .eq b { animation: eq .7s ease-in-out infinite alternate; }
+.film-hit[aria-pressed="true"] .eq b:nth-child(2) { animation-delay: -.25s; }
+.film-hit[aria-pressed="true"] .eq b:nth-child(3) { animation-delay: -.5s; }
+@keyframes eq { from { height: 20%; } to { height: 100%; } }
+.film-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(0, 0, 0, .45); pointer-events: none; }
+.film-bar span { display: block; height: 100%; width: 0; background: var(--red); }
+@media (max-width: 640px) { .film:nth-child(2) { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .film:nth-child(2) { transform: none; } .film-hit[aria-pressed="true"] .eq b { animation: none; height: 100%; } }
+@media (max-width: 860px) { .media { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-inline: 0; } }
+@media (prefers-reduced-motion: reduce) { .media .m:nth-child(odd) { transform: none; } }
+.manifesto-art { margin: 0 auto; max-width: 640px; }
+.manifesto-art img { width: 100%; height: auto; display: block; }
+.manifesto-art { position: relative; }
+.manifesto-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity .6s ease; }
+.manifesto-3d:active { cursor: grabbing; }
+.manifesto-art.ready .manifesto-3d { opacity: 1; }
+.manifesto-art.ready img { visibility: hidden; }
+.brief { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.brief article { border-top: 4px solid var(--red); padding-top: 14px; display: grid; gap: 8px; align-content: start; }
+.brief p { margin: 0; font-size: var(--fs-body); line-height: 1.55; }
+@media (max-width: 760px) { .brief { grid-template-columns: 1fr; } }
+
+.about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.about-text { display: grid; gap: 18px; }
+.about-text p { margin: 0; max-width: 56ch; }
+.lead-sm { font: 900 clamp(1.7rem, 3.4vw, 2.6rem)/1.05 var(--f-display); text-transform: uppercase; text-wrap: balance; }
+.lead-sm b { color: var(--red); }
+.contact-box { display: grid; gap: 12px; max-width: 760px; }
+.contact-box > .label { margin: 0; color: var(--ink); }
+.contact-box .big-mail { font-size: var(--fs-2); line-height: 1; text-transform: none; }
+.contact-box .channels { margin-top: 12px; }
+@media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo" viewBox="0 265 1080 555"><path class="l" fill-rule="evenodd" d="M698.04047,626.05445c10.0213,10.82291,19.12913,22.15511,29.75907,31.81158,19.02775,17.28512,42.27561,26.15491,67.46181,30.07878,9.83287,1.53184,19.70982,3.41243,29.611,3.72394,14.227.44758,28.68171.93129,42.69392-1.04672,14.97427-2.11378,28.043-9.84895,39.29382-20.29436,1.89049-1.75508,5.08079-3.81472,7.13109-3.35054a49.856,49.856,0,0,1,13.79728,5.65319,176.132,176.132,0,0,0,33.50405,15.19789c23.57375,7.79566,46.42051,5.42153,68.52617-4.1888,18.74849-8.15069,34.214-21.08078,46.50841-37.51982,14.02131-18.74823,25.04173-39.13085,31.85961-61.58233,4.2311-13.93293,8.74116-27.8835,11.48433-42.142,4.15907-21.61828,7.805-43.42018,9.98492-65.31188,2.45165-24.62007,3.85229-49.41431,4.21707-74.15482.43656-29.60977-.55779-59.24622-1.22521-88.86451-.36649-16.26955-.836-32.56654-2.16866-48.77639-1.397-16.99293-3.38385-33.97535-6.05414-50.81317-2.04243-12.88055-4.62616-25.79954-10.95425-37.52538-9.25244-17.14511-22.05464-26.30581-44.01838-16.972-5.48506,2.331-10.59747,5.53116-16.0572,7.93124-17.94708,7.88955-32.99637,19.92995-47.08781,33.17281-9.925,9.32735-19.38684,19.18456-28.59795,29.22507q-16.48586,17.97018-32.13369,36.70345c-6.72827,8.0333-12.70825,16.6906-19.14994,24.96992a8.26911,8.26911,0,0,1-4.15425,3.083c-3.39082.73384-6.92624.799-11.34015,1.22848-4.35184-4.83861-4.37534-4.86956-11.04106.19592a19.59434,19.59434,0,0,0-3.495,3.51967c-4.39139,5.60743-10.22487,7.92943-17.18645,8.9725a122.92276,122.92276,0,0,0-23.68228,5.5c-9.64114,3.4997-18.89107,8.149-28.12434,12.68024-9.26733,4.548-18.75288,8.87932-27.35169,14.51331-16.80531,11.01089-33.34839,22.32707-48.16359,36.21525a251.49921,251.49921,0,0,0-44.35862,54.29306c-1.31811,2.19887-2.35086,4.5688-3.516,6.85936a9.43253,9.43253,0,0,1-1.35016-5.34534c.297-14.13554.92813-28.27089.87893-42.40429-.03107-8.93111,1.95574-16.63612,8.769-22.84762,1.18608-1.08137,2.16292-3.87433,1.57345-5.0244-.65131-1.27085-3.16466-1.77734-4.96481-2.20358a11.98282,11.98282,0,0,0-3.95624.2291c-13.186,1.53649-26.39835,2.8845-39.54616,4.69919-11.79515,1.628-23.5942,3.41146-35.24517,5.83116-6.77357,1.40677-7.79784,7.06136-2.55663,11.75988a12.48514,12.48514,0,0,1,4.36734,10.63089c-.35214,7.14957-.46287,14.31073-.72553,21.46518-.05726,1.56017-.32633,3.11247-.58636,5.471-1.33563-1.11228-1.959-1.55956-2.499-2.09156-11.16587-11.00048-22.92525-21.24823-36.342-29.49549-15.08262-9.27126-31.72651-14.54163-48.72831-18.54358a692.90806,692.90806,0,0,0-72.0051-12.7364c-36.6992-4.63924-72.25156-15.11514-107.13222-27.11864A840.07275,840.07275,0,0,1,283.396,299.04056a821.74338,821.74338,0,0,1-73.91958-39.63739c-23.715-14.12715-46.23375-30.25431-69.41366-45.29385-6.35386-4.12251-13.142-7.59632-19.86819-11.10451-1.17563-.61315-3.75789-.49067-4.404.3189a5.84334,5.84334,0,0,0-.63248,4.84c1.77915,5.01033,3.96747,9.87757,6.05708,14.775q19.45668,45.60049,39.03152,91.15007c.88732,2.05252,2.95555,4.738,4.73309,4.9488,1.87463.22232,4.05947-2.17135,6.1903-3.47187,4.4276,5.94446,6.74709,5.89227,11.557-1.13335,1.85542.84428,3.81184,1.67271,5.71475,2.60983,19.86314,9.782,39.74368,19.52962,59.52857,29.46763a8.38871,8.38871,0,0,1,4.00724,4.59248c2.596,9.41676,4.85614,18.929,7.10087,28.43916,5.84036,24.74415,11.80366,49.46152,17.36119,74.26949,6.584,29.39,12.81459,58.85938,19.15978,88.30263,4.06986,18.8852,8.1472,37.76937,12.0781,56.68376,3.38711,16.29785,6.5973,32.63287,9.79922,48.96838a17.497,17.497,0,0,1-.21568,4.27084q-.70664.17086-1.41322.34166a59.78692,59.78692,0,0,1-3.71054-5.57151q-10.2201-19.63761-20.2883-39.35421c-2.721-5.29687-5.65068-10.50389-8.05648-15.94165-4.64023-10.4882-8.72619-21.2254-13.49107-31.65408-8.828-19.32162-17.9973-38.487-26.98989-57.73367-7.871-16.84614-15.58993-33.76426-23.56927-50.55876-7.64265-16.08584-15.93467-31.87354-23.229-48.11229-13.36641-29.75662-25.91141-59.88346-39.37557-89.59457-8.69912-19.19611-18.12668-38.08046-27.77767-56.82133-8.72815-16.94885-18.35206-33.4338-27.30476-50.27023-8.58928-16.153-16.76668-32.52464-25.272-48.72308a27.46523,27.46523,0,0,0-5.35463-7.12322c-2.78711-2.62591-6.2527-1.375-7.19459,2.36375a22.4314,22.4314,0,0,0-.3913,4.97008c-.52648,25.31509-1.26106,50.62847-1.495,75.94644q-.70054,75.81818-.90956,151.6407c-.0516,15.73129.701,31.464.74374,47.197.07439,27.38148-.1789,54.76374-.17131,82.14564.004,14.45529.3759,28.91027.38927,43.36561.01781,19.26106.29234,38.53768-.37371,57.77884-.5898,17.03856-2.25375,34.04256-3.57025,51.05206-.521,6.73087.48438,8.01432,7.12162,8.19428,6.995.18961,13.9875.47444,20.98125.71306,11.975.40869,23.94771,1.00406,35.926,1.153,7.90581.09841,11.59378-5.72961,8.35191-12.74409-3.2601-7.05379-3.56313-14.43538-3.15755-22.01208,1.08653-20.29759,2.00955-40.604,3.06073-60.90357.172-3.32258.59-6.6385,1.03036-9.93935.46472-3.48343,2.39493-4.83874,5.95823-4.05218,4.6971,1.03684,9.43681,1.88749,14.17079,2.74913,20.909,3.80526,41.81276,7.6414,62.74375,11.32225a9.69626,9.69626,0,0,1,7.54061,5.67156c4.64192,9.38489,9.40148,18.71337,13.915,28.15948,4.94326,10.34554,9.95147,20.67674,14.38962,31.24179,3.57145,8.50188,9.34188,16.66509,4.34259,26.92358-1.86664,3.83035,1.07169,6.68478,5.979,6.80656q59.44883,1.47578,118.90248,2.734c2.12916.04194,4.29238-1.64722,6.43976-2.53047-.77921-1.888-1.03418-4.4044-2.42225-5.56247-9.4177-7.85695-10.94558-19.02726-13.06476-29.96078-3.21755-16.6002-6.19426-33.24832-9.54339-49.82147-2.92315-14.4653-6.2394-28.85093-9.34436-43.27978-2.33645-10.85746-4.57067-21.7369-6.92657-32.59q-5.53857-25.515-11.18117-51.00738c-3.17305-14.41927-6.42478-28.8215-9.5396-43.25323-3.08326-14.28576-6.18516-28.57043-8.98165-42.91354-1.20324-6.17149.57668-7.57105,6.34173-5.3411,12.42885,4.80748,24.75587,9.87782,37.171,14.72143,3.33994,1.303,4.14561,3.65662,4.45564,6.97212.89706,9.595,1.67575,19.24439,3.39454,28.7101,3.53874,19.4885,7.86717,38.83277,11.47493,58.30967,3.09394,16.70288,5.40689,33.55018,8.488,50.25575q4.61519,25.02354,10.12354,49.87989c2.32138,10.54289,5.76085,20.84411,7.96774,31.40648,2.99469,14.33314,5.36445,28.79953,7.84279,43.2362.82131,4.784,1.1425,9.58475-2.11381,13.90284-2.05417,2.724-1.02713,5.48324,1.76494,6.63771,3.75992,1.55461,7.85515,3.16746,11.82365,3.2116,33.49816.37286,67.00025.40393,100.50124.50422a71.86392,71.86392,0,0,0,10.476-.42487c1.54607-.22391,3.7193-1.52116,4.10658-2.78972.37106-1.21545-.7845-3.76014-1.99286-4.44665-5.5299-3.1417-7.49846-8.36227-8.64881-13.97346-.8983-4.382-1.07779-8.90764-1.66287-13.35814-1.4908-11.33989-3.029-22.67349-4.55-34.00935-.81746-6.09265-1.67722-12.18-2.44093-18.27941-.37037-2.95808.55651-5.1445,4.03974-4.552,13.01965,2.21487,25.83693.686,38.728-1.39431,17.2452-2.78282,33.19118-8.51793,46.6387-19.84842,7.54293-6.35532,14.42778-13.49177,22.2366-20.86909,0,3.94615.0484,7.82246-.00861,11.69712q-.319,21.68878-.70154,43.37666c-.07294,4.15773-.2701,8.31313-.35159,12.4708-.232,11.82324-.973,23.67041-.46446,35.46288.3605,8.35885.528,16.16892-4.66449,23.36012-3.07255,4.25509-1.41218,7.21067,3.923,7.65037,3.311.27305,6.65827.13894,9.9892.13326,19.65677-.03363,39.31415-.022,58.96909-.23422,1.727-.01868,4.54289-1.2287,4.88173-2.43787.44255-1.5794-.60516-4.135-1.84648-5.52518a19.94807,19.94807,0,0,1-5.08286-15.6349c.47813-6.47369.44407-12.98369.80958-19.46788C697.07194,636.38541,697.63156,630.99446,698.04047,626.05445Z" transform="translate(-55 119.11017)"/><path class="k" d="M698.04047,626.05445c-.40891,4.94-.96853,10.331-1.27331,15.73624-.36551,6.48419-.33145,12.99419-.80958,19.46788a19.94807,19.94807,0,0,0,5.08286,15.6349c1.24132,1.39016,2.289,3.94578,1.84648,5.52518-.33884,1.20917-3.15477,2.41919-4.88173,2.43787-19.65494.21219-39.31232.20059-58.96909.23422-3.33093.00568-6.67816.13979-9.9892-.13326-5.33514-.4397-6.99551-3.39528-3.923-7.65037,5.19249-7.1912,5.025-15.00127,4.66449-23.36012-.50853-11.79247.2325-23.63964.46446-35.46288.08149-4.15767.27865-8.31307.35159-12.4708q.38045-21.68787.70154-43.37666c.057-3.87466.00861-7.751.00861-11.69712-7.80882,7.37732-14.69367,14.51377-22.2366,20.86909-13.44752,11.33049-29.3935,17.0656-46.6387,19.84842-12.8911,2.08033-25.70838,3.60918-38.728,1.39431-3.48323-.59249-4.41011,1.59393-4.03974,4.552.76371,6.09937,1.62347,12.18676,2.44093,18.27941,1.52092,11.33586,3.05917,22.66946,4.55,34.00935.58508,4.4505.76457,8.97614,1.66287,13.35814,1.15035,5.61119,3.11891,10.83176,8.64881,13.97346,1.20836.68651,2.36392,3.2312,1.99286,4.44665-.38728,1.26856-2.56051,2.56581-4.10658,2.78972a71.86392,71.86392,0,0,1-10.476.42487c-33.501-.10029-67.00308-.13136-100.50124-.50422-3.9685-.04414-8.06373-1.657-11.82365-3.2116-2.79207-1.15447-3.81911-3.91367-1.76494-6.63771,3.25631-4.31809,2.93512-9.1188,2.11381-13.90284-2.47834-14.43667-4.8481-28.90306-7.84279-43.2362-2.20689-10.56237-5.64636-20.86359-7.96774-31.40648q-5.47177-24.85077-10.12354-49.87989c-3.08107-16.70557-5.394-33.55287-8.488-50.25575-3.60776-19.4769-7.93619-38.82117-11.47493-58.30967-1.71879-9.46571-2.49748-19.1151-3.39454-28.7101-.31-3.3155-1.1157-5.66913-4.45564-6.97212-12.41517-4.84361-24.74219-9.91395-37.171-14.72143-5.76505-2.23-7.545-.83039-6.34173,5.3411,2.79649,14.34311,5.89839,28.62778,8.98165,42.91354,3.11482,14.43173,6.36655,28.834,9.5396,43.25323Q339.281,494.144,344.85094,519.6522c2.3559,10.85312,4.59012,21.73256,6.92657,32.59,3.105,14.42885,6.42121,28.81448,9.34436,43.27978,3.34913,16.57315,6.32584,33.22127,9.54339,49.82147,2.11918,10.93352,3.64706,22.10383,13.06476,29.96078,1.38807,1.15807,1.643,3.6745,2.42225,5.56247-2.14738.88325-4.3106,2.57241-6.43976,2.53047q-59.45517-1.17141-118.90248-2.734c-4.90735-.12178-7.84568-2.97621-5.979-6.80656,4.99929-10.25849-.77114-18.4217-4.34259-26.92358-4.43815-10.565-9.44636-20.89625-14.38962-31.24179-4.51348-9.44611-9.273-18.77459-13.915-28.15948a9.69626,9.69626,0,0,0-7.54061-5.67156c-20.931-3.68085-41.83472-7.517-62.74375-11.32225-4.734-.86164-9.47369-1.71229-14.17079-2.74913-3.5633-.78656-5.49351.56875-5.95823,4.05218-.44036,3.30085-.85832,6.61677-1.03036,9.93935-1.05118,20.29954-1.9742,40.606-3.06073,60.90357-.40558,7.5767-.10255,14.95829,3.15755,22.01208,3.24187,7.01448-.4461,12.8425-8.35191,12.74409-11.97825-.14894-23.951-.74431-35.926-1.153-6.99375-.23862-13.9862-.52345-20.98125-.71306-6.63724-.18-7.64258-1.46341-7.12162-8.19428,1.3165-17.0095,2.98045-34.0135,3.57025-51.05206.666-19.24116.39152-38.51778.37371-57.77884-.01337-14.45534-.38527-28.91032-.38927-43.36561-.00759-27.3819.2457-54.76416.17131-82.14564-.04275-15.73306-.79534-31.46576-.74374-47.197q.24867-75.82116.90956-151.6407c.23393-25.318.96851-50.63135,1.495-75.94644a22.4314,22.4314,0,0,1,.3913-4.97008c.94189-3.73871,4.40748-4.98966,7.19459-2.36375a27.46523,27.46523,0,0,1,5.35463,7.12322c8.50527,16.19844,16.68267,32.57009,25.272,48.72308,8.9527,16.83643,18.57661,33.32138,27.30476,50.27023,9.651,18.74087,19.07855,37.62522,27.77767,56.82133,13.46416,29.71111,26.00916,59.838,39.37557,89.59457,7.29429,16.23875,15.58631,32.02645,23.229,48.11229,7.97934,16.7945,15.69825,33.71262,23.56927,50.55876,8.99259,19.24665,18.1619,38.412,26.98989,57.73367,4.76488,10.42868,8.85084,21.16588,13.49107,31.65408,2.4058,5.43776,5.3355,10.64478,8.05648,15.94165q10.11576,19.69191,20.2883,39.35421a59.78692,59.78692,0,0,0,3.71054,5.57151q.70657-.17086,1.41322-.34166a17.497,17.497,0,0,0,.21568-4.27084c-3.20192-16.33551-6.41211-32.67053-9.79922-48.96838-3.9309-18.91439-8.00824-37.79856-12.0781-56.68376-6.34519-29.44325-12.57577-58.91262-19.15978-88.30263-5.55753-24.808-11.52083-49.52534-17.36119-74.26949-2.24473-9.51021-4.50487-19.0224-7.10087-28.43916a8.38871,8.38871,0,0,0-4.00724-4.59248c-19.78489-9.938-39.66543-19.68562-59.52857-29.46763-1.90291-.93712-3.85933-1.76555-5.71475-2.60983-4.80992,7.02562-7.12941,7.07781-11.557,1.13335-2.13083,1.30052-4.31567,3.69419-6.1903,3.47187-1.77754-.21082-3.84577-2.89628-4.73309-4.9488q-19.67327-45.507-39.03152-91.15007c-2.08961-4.89746-4.27793-9.7647-6.05708-14.775a5.84334,5.84334,0,0,1,.63248-4.84c.6461-.80957,3.22836-.93205,4.404-.3189,6.72618,3.50819,13.51433,6.982,19.86819,11.10451,23.17991,15.03954,45.69863,31.1667,69.41366,45.29385A821.74338,821.74338,0,0,0,283.396,299.04056a840.07275,840.07275,0,0,0,80.56754,32.27521c34.88066,12.0035,70.433,22.4794,107.13222,27.11864a692.90806,692.90806,0,0,1,72.0051,12.7364c17.0018,4.00195,33.64569,9.27232,48.72831,18.54358,13.41676,8.24726,25.17614,18.495,36.342,29.49549.54.532,1.16332.97928,2.499,2.09156.26-2.3585.5291-3.9108.58636-5.471.26266-7.15445.37339-14.31561.72553-21.46518a12.48514,12.48514,0,0,0-4.36734-10.63089c-5.24121-4.69852-4.21694-10.35311,2.55663-11.75988,11.651-2.4197,23.45-4.20317,35.24517-5.83116,13.14781-1.81469,26.3602-3.1627,39.54616-4.69919a11.98282,11.98282,0,0,1,3.95624-.2291c1.80015.42624,4.3135.93273,4.96481,2.20358.58947,1.15007-.38737,3.943-1.57345,5.0244-6.81331,6.2115-8.80012,13.91651-8.769,22.84762.0492,14.1334-.582,28.26875-.87893,42.40429a9.43253,9.43253,0,0,0,1.35016,5.34534c1.16509-2.29056,2.19784-4.66049,3.516-6.85936A251.49921,251.49921,0,0,1,751.887,377.88788c14.8152-13.88818,31.35828-25.20436,48.16359-36.21525,8.59881-5.634,18.08436-9.96529,27.35169-14.51331,9.23327-4.53128,18.4832-9.18054,28.12434-12.68024a122.92276,122.92276,0,0,1,23.68228-5.5c6.96158-1.04307,12.79506-3.36507,17.18645-8.9725a19.59434,19.59434,0,0,1,3.495-3.51967c6.66572-5.06548,6.68922-5.03453,11.04106-.19592,4.41391-.42947,7.94933-.49464,11.34015-1.22848a8.26911,8.26911,0,0,0,4.15425-3.083c6.44169-8.27932,12.42167-16.93662,19.14994-24.96992q15.65878-18.69608,32.13369-36.70345c9.21111-10.04051,18.673-19.89772,28.59795-29.22507,14.09144-13.24286,29.14073-25.28326,47.08781-33.17281,5.45973-2.40008,10.57214-5.60023,16.0572-7.93124,21.96374-9.33376,34.76594-.17306,44.01838,16.972,6.32809,11.72584,8.91182,24.64483,10.95425,37.52538,2.67029,16.83782,4.65716,33.82024,6.05414,50.81317,1.33264,16.20985,1.80217,32.50684,2.16866,48.77639.66742,29.61829,1.66177,59.25474,1.22521,88.86451-.36478,24.74051-1.76542,49.53475-4.21707,74.15482-2.17988,21.8917-5.82585,43.6936-9.98492,65.31188-2.74317,14.25854-7.25323,28.20911-11.48433,42.142-6.81788,22.45148-17.8383,42.8341-31.85961,61.58233-12.2944,16.439-27.75992,29.36913-46.50841,37.51982-22.10566,9.61033-44.95242,11.98446-68.52617,4.1888a176.132,176.132,0,0,1-33.50405-15.19789,49.856,49.856,0,0,0-13.79728-5.65319c-2.0503-.46418-5.2406,1.59546-7.13109,3.35054-11.25085,10.44541-24.31955,18.18058-39.29382,20.29436-14.01221,1.978-28.46691,1.4943-42.69392,1.04672-9.90123-.31151-19.77818-2.1921-29.611-3.72394-25.1862-3.92387-48.43406-12.79366-67.46181-30.07878C717.1696,648.20956,708.06177,636.87736,698.04047,626.05445Zm374.905-104.25587c.6969-1.10728,1.72446-2.1288,2.03754-3.33564,2.20467-8.498,4.8799-16.93717,6.237-25.57847,2.74732-17.49413,5.16575-35.063,6.94106-52.67963,1.49989-14.88229,2.803-29.88966,2.5664-44.8159-.31827-20.08485-1.68375-40.19335-3.56271-60.20129-1.68838-17.97778-4.72443-35.84941-11.51661-52.75538-1.908-4.74891-4.93832-9.04685-7.45381-13.55164l-1.198.76809c1.28357,3.93473,2.70032,7.83164,3.82958,11.81017,8.5269,30.04221,8.5667,60.96706,8.42508,91.73511-.14564,31.62976-1.83281,63.25772-3.13212,94.87463-.7381,17.96-2.05054,35.89635-3.104,53.84209a35.479,35.479,0,0,0-3.47493-5.42232c-.94339-1.03476-2.61718-1.40365-3.96393-2.07062-.14637,1.48374-.62566,3.02645-.37515,4.43981.684,3.859,1.82011,7.63865,2.48558,11.5a36.443,36.443,0,0,1,.06,6.10943l1.84789.293Q1071.26988,529.27928,1072.94543,521.79858Zm1.23845-179.53617c-1.6973-20.29634-2.23891-40.69871-8.79933-60.15465-2.23568-6.63017-6.145-12.80861-10.04676-18.69112-1.0784-1.6257-5.44788-2.71482-7.335-1.87216-8.159,3.64312-16.978,6.88167-23.66629,12.513-12.42265,10.45935-24.47032,21.6825-34.97684,34.03182a370.01355,370.01355,0,0,0-51.43171,78.64728c-10.59369,21.87317-19.77641,44.128-24.79353,68.10035-4.5885,21.92448-7.52035,43.632-4.72334,66.16822,3.17449,25.578,11.17705,48.83414,27.853,68.66614,4.88918,5.81447,10.04517,11.93813,18.01386,13.59652a60.09231,60.09231,0,0,0,30.12647-1.768c18.40672-5.65538,34.28513-14.95835,44.47185-32.14079,4.79585-8.08946,10.02613-15.92254,14.77394-24.039,2.9012-4.9596,5.95556-10.01376,7.69034-15.42644,2.31534-7.224,3.2271-14.88516,5.08976-22.27066,2.02729-8.03831,4.93563-15.878,6.58392-23.98247,2.08521-10.25312,3.4651-20.66306,4.80909-31.04931.979-7.56626.54986-15.40416,2.27072-22.76506a173.12309,173.12309,0,0,0,4.07758-39.14492C1074.22313,374.54177,1074.18388,358.402,1074.18388,342.26241ZM868.35826,385.56948q-.54835-.34429-1.09666-.68861c-.38919.47215-.8.92824-1.16417,1.41894-5.08408,6.85021-7.69528,6.79429-13.09019.11126a4.57346,4.57346,0,0,0-4.10755-.92336c-19.5063,7.31051-37.23132,17.81507-52.33579,32.092-17.72806,16.75659-30.48369,37.0424-39.95141,59.56316-6.08076,14.46444-8.99521,29.47688-9.86486,44.938-1.48781,26.45,6.16206,50.12223,22.05054,71.3491,12.08754,16.14878,27.5585,27.24211,46.87307,32.77712,11.31848,3.24352,24.548,3.37037,33.27057-12.34639,1.76108-3.17339,2.22933-5.82851.27761-9.26439a68.95118,68.95118,0,0,1-5.40845-12.84658c-7.61307-23.55119-13.70078-47.40522-11.552-72.48331.95028-11.09028,1.84892-22.26859,4.05292-33.14716,2.92721-14.44772,7.02853-28.66243,10.804-42.93.96707-3.65466,2.77546-7.07888,3.90093-10.70113,2.3992-7.72118,4.19624-15.654,6.99985-23.21849C861.00737,401.20036,864.87405,393.45579,868.35826,385.56948ZM576.2267,490.77453c.64819-18.68144-7.508-30.1121-18.82-39.656-15.74228-13.28177-34.46434-18.9551-54.71363-20.5044-3.84892-.29448-4.64517,1.1016-4.20314,4.54492,1.30926,10.19953,2.35028,20.43366,3.67407,30.63117,1.77034,13.637,3.71375,27.25151,5.57073,40.87738.98526,7.22954,1.75071,14.498,3.05744,21.6684.31381,1.72182,2.1972,4.24405,3.68116,4.49555,12.71124,2.15407,24.976,2.83984,36.973-4.57905C566.81995,518.74527,576.13715,506.36091,576.2267,490.77453Zm275.228,11.347c-.50664-2.33733-.9034-4.16786-1.30017-5.99834-1.17631,2.26005-1.21233,4.542-1.71756,6.71487-.3132,1.34676-1.33893,2.52773-2.04487,3.7831q-.92952-.36616-1.85917-.73247c-.98368,15.952-2.00287,31.90205-2.92312,47.85774-.2004,3.47427-.7989,7.17295.08057,10.41733,3.08946,11.397,5.60269,23.173,10.54754,33.77274,3.88591,8.32968,4.485,16.07437,3.24065,24.59926a43.27521,43.27521,0,0,0-.04273,6.13043c6.59-.83411,12.47447-5.58164,16.55437-11.6586,3.35737-5.00068,2.27957-9.11226.04395-14.21208a207.10444,207.10444,0,0,1-16.2524-59.37289c-2.43675-20.82318-1.35932-41.55278,1.16118-62.18984,1.36328-11.162,4.50828-22.10382,6.761-33.163a8.26285,8.26285,0,0,0-.07416-4.35331c-.46178-1.20978-1.8344-2.07179-2.80635-3.08683a26.4462,26.4462,0,0,0-1.51436,3.58788c-.29416,1.09849-.02814,2.35032-.33853,3.4407a163.66053,163.66053,0,0,0-6.47569,42.67184C852.4414,494.0987,851.84655,497.85964,851.45467,502.12157Zm-676.916-14.3014,1.10533-1.37093q-20.18851-42.79485-40.377-85.58969a174.59792,174.59792,0,0,0-1.01822,22.25259c-.08671,15.132-.131,30.265-.37808,45.3946-.06794,4.16047,1.538,6.31424,5.52747,7.587,8.23442,2.627,16.30781,5.75452,24.48663,8.562C167.38557,485.85748,170.98434,486.774,174.53862,487.82017ZM117.17815,360.39143q-.76874.17434-1.53748.34866c0,2.30027-.03769,4.60127.00615,6.90069.27442,14.39494.60231,28.78891.84546,43.18431.375,22.19991.67881,44.40092,1.05372,66.60077.08014,4.74515,2.19873,6.39567,8.35281,6.51361,4.71784.09046,3.27873-3.75807,3.59909-6.2054a69.34982,69.34982,0,0,0,.231-8.482c.15509-22.14638-.46974-44.33347.69835-66.42588C131.28942,386.51985,122.26453,374.28786,117.17815,360.39143ZM474.75326,671.2937l3.17244-.6221c-7.108-47.1594-15.34812-94.158-22.74708-141.26886-7.39951-47.11447-15.7651-94.0773-23.713-141.10563a.68416.68416,0,0,0-.67719-.56965q-.01827,0-.0369,0a2.97935,2.97935,0,0,0-2.98655,3.09428c.26834,6.808,1.331,13.745,2.09269,20.41743,1.33231,11.67093,3.75346,23.21837,5.74052,34.81343,3.33353,19.45219,6.74293,38.89161,10.01773,58.35363,2.2836,13.57161,4.27969,27.192,6.61191,40.75481,3.3435,19.44394,7.01257,38.83234,10.29022,58.287,3.2857,19.50224,6.20146,39.06675,9.43357,58.57839C472.47455,665.18359,473.79919,668.208,474.75326,671.2937Zm160.66489,6.56177,1.90008.86988c1.65335-2.068,4.06263-3.9011,4.7942-6.25551a45.79218,45.79218,0,0,0,2.22366-13.12348c.13-23.42959.0249-46.86168-.17135-70.29145-.15748-18.808-.55455-37.614-.87446-56.42036a16.51665,16.51665,0,0,0-.48009-2.67514q-.76655-.17591-1.53322-.35174c-1.767,5.367-4.96609,10.70546-5.07353,16.10549-.83168,41.79556-1.07773,83.60289-1.45246,125.40705A60.64691,60.64691,0,0,0,635.41815,677.85547ZM369.2131,400.26363q-.7563.07674-1.51259.15359a36.86354,36.86354,0,0,0,.036,5.31958c1.57769,10.70753,2.95,21.45859,4.967,32.08573,8.13756,42.8742,16.48982,85.70763,24.75331,128.558,4.91869,25.50613,9.87431,51.00536,14.68866,76.53127,1.14079,6.04863,1.58559,12.22894,2.7389,18.27464.52535,2.7542,1.99542,5.32825,3.037,7.984l1.30209-.2388c.30246-1.20953,1.03766-2.49293.84578-3.61816C404.94135,576.60749,387.27893,488.396,369.2131,400.26363Zm408.09751,278.3657c-37.83183-20.767-62.77315-52.274-77.85094-92.25244-.853,5.22655-1.19811,10.16955-1.68888,15.098-.77711,7.80494,1.53994,14.52116,5.73533,21.16619,9.57735,15.16975,22.02649,27.57852,35.99249,38.47224C750.5968,669.77009,763.46535,675.17514,777.31061,678.62933ZM501.15851,423.2092l-.241,1.51634c2.785.39349,5.55813.94991,8.35694,1.15484,24.36588,1.784,44.25808,12.542,60.57256,30.31477,7.82121,8.52025,12.521,18.43067,11.96692,30.31978-.37211,7.9863-.84542,15.968-1.19438,23.95524a48.084,48.084,0,0,0,.30294,5.13565l1.26928.35766c.79457-1.09941,1.5693-2.21377,2.38694-3.29572,5.72129-7.5709,6.67194-16.59849,7.128-25.52725.75862-14.85391-4.1559-27.79468-14.85817-38.33685-9.57235-9.42914-20.78914-16.09267-34.01792-18.64158C529.00658,427.49835,515.05456,425.499,501.15851,423.2092ZM119.259,656.98052q1.01131.07234,2.02263.14462a66.92809,66.92809,0,0,0,1.74445-8.50585c.76242-9.78168,1.32008-19.58,1.88136-29.37634.94269-16.453,1.80835-32.91056,2.75782-49.36321.15248-2.64236-.79575-4.57582-3.51156-4.07568-1.342.24716-3.27482,2.13307-3.38689,3.41347-.65046,7.43153-.96569,14.9003-1.15719,22.36247-.40943,15.95332-.76158,31.90931-.95183,47.86641C118.58819,645.28786,119.04331,651.13566,119.259,656.98052Zm924.85208-75.40116c.98587-.445,1.624-.51881,1.81407-.84986q10.1045-17.60683,20.13075-35.25874c-1.22082-6.78044-2.38138-13.57344-3.77916-20.31719-.10975-.52913-1.91454-1.04-2.85231-.92311-.46476.05793-1.13407,1.61224-1.03452,2.40454a40.5294,40.5294,0,0,0,1.32752,4.78971c1.56685,6.13837,3.09379,12.28614.258,17.33072-2.21975.68931-4.72529,1.1298-4.71681,1.51518.13442,6.13776-3.18693,3.96629-7.03336,1.7842v18.53365c-2.362-1.47354-3.66641-2.28727-4.97073-3.101q-.76572.22581-1.53145.45167C1042.50111,572.38329,1043.27919,576.82743,1044.11112,581.57936ZM641.5019,392.38385l-2.17506-.08241c.04486,14.846-8.28,29.927,2.17506,45.5076ZM147.60845,320.71479c-4.88942-5.31812-2.425-13.64645-8.62548-17.941,1.17328,11.14873,7.90805,19.94579,12.46413,29.76647.94293-5.90383,1.50871-11.627-1.66526-18.35934C148.77211,317.21646,148.22432,318.86331,147.60845,320.71479Zm16.40313,38.94475c2.427-8.2975-2.95557-23.44274-9.34646-26.315C153.28685,344.04173,161.16257,350.98414,164.01158,359.65954ZM129.22167,279.808c-1.76186,3.75859,1.63526,13.96666,7.06031,19.04279,0-4.82979.03192-9.0611-.0367-13.29074a2.41919,2.41919,0,0,0-.8169-1.717C133.523,282.48843,131.515,281.27829,129.22167,279.808Zm751.47842,119.4411-1.51692-.64555c-6.07185,2.68491-10.41752,15.87671-7.79875,24.44189C874.57447,414.89668,877.63731,407.07294,880.70009,399.24914Zm148.3657,197.91263q.73031.27469,1.46065.54928c2.28231-2.11336,4.864-3.9934,6.75141-6.4146,1.488-1.90885,3.1436-4.63759,2.83119-6.7178-.28219-1.87857-3.13139-3.37147-5.32293-5.494-.74891,1.80276-1.20867,2.38469-1.19176,2.95246.1269,4.25308,1.78257,8.915-3.86352,11.34508C1029.08643,593.65966,1029.26747,595.85548,1029.06579,597.16177Zm-11.32843,7.90664q.78771.32056,1.5754.64121c2.10445-1.48716,4.7964-2.58895,6.11147-4.59395.91127-1.38943.46964-4.33073-.45293-5.96616-.43314-.76782-4.80171-.598-5.0275.01544C1018.78586,598.31062,1018.39575,601.73887,1017.73736,605.06841ZM185.56538,392.455q-1.47455.51213-2.94906,1.02432,3.557,9.997,7.114,19.99414.99078-.34419,1.98157-.68846Q188.63863,402.62,185.56538,392.455Zm822.29986,213.76315c-.2256-.3106-1.11-1.52813-1.99438-2.74565-1.81517,2.54853-3.64712,5.08627-5.34046,7.71325-.03882.06031,1.59762,1.74208,2.26626,1.62274C1005.66772,612.29611,1008.39447,611.32105,1007.86524,606.21812Zm-10.80787,7.91842c1.611-6.48138-3.95508-3.62909-5.79283-5.40328a3.24975,3.24975,0,0,0-3.21935-.03491,4.30668,4.30668,0,0,0-.9841,3.56706c.22988.82556,1.81273,1.67114,2.87356,1.78811A64.37693,64.37693,0,0,0,997.05737,614.13654ZM170.89669,360.76646c-3.58044,4.87835-2.89992,9.03907,1.66568,13.34812Zm5.753,26.31408q1.019-.16633,2.03793-.33263-.67335-4.58775-1.34669-9.1755-1.23642.21156-2.47283.42309Q175.75885,382.538,176.64965,387.08054Zm688.933,49.68849.75849.072q.44031-5.74635.88069-11.49269-.81956-.04449-1.63918-.08906Z" transform="translate(-55 119.11017)"/><path class="d" d="M1074.18388,342.26241c0,16.13962.03925,32.27936-.01233,48.41883a173.12309,173.12309,0,0,1-4.07758,39.14492c-1.72086,7.3609-1.29175,15.1988-2.27072,22.76506-1.344,10.38625-2.72388,20.79619-4.80909,31.04931-1.64829,8.10442-4.55663,15.94416-6.58392,23.98247-1.86266,7.3855-2.77442,15.04662-5.08976,22.27066-1.73478,5.41268-4.78914,10.46684-7.69034,15.42644-4.74781,8.11645-9.97809,15.94953-14.77394,24.039-10.18672,17.18244-26.06513,26.48541-44.47185,32.14079a60.09231,60.09231,0,0,1-30.12647,1.768c-7.96869-1.65839-13.12468-7.782-18.01386-13.59652-16.67591-19.832-24.67847-43.08816-27.853-68.66614-2.797-22.53627.13484-44.24374,4.72334-66.16822,5.01712-23.97239,14.19984-46.22718,24.79353-68.10035a370.01355,370.01355,0,0,1,51.43171-78.64728c10.50652-12.34932,22.55419-23.57247,34.97684-34.03182,6.6883-5.63137,15.50728-8.86992,23.66629-12.513,1.88714-.84266,6.25662.24646,7.335,1.87216,3.90179,5.88251,7.81108,12.061,10.04676,18.69112C1071.945,301.5637,1072.48658,321.96607,1074.18388,342.26241Zm-42.19332,169.22268c.7259-3.22363,1.73246-5.15019,1.45637-6.8709-2.15535-13.43347-4.1266-26.92267-7.06522-40.19308-1.46113-6.59864.09113-11.33672,4.03943-16.43575a139.61985,139.61985,0,0,0,24.99851-50.61712,10.32765,10.32765,0,0,0-.49962-4.9176c-3.65719-.00849-2.90743-2.78845-3.46382-4.87189-.72077-2.69913-2.23317-3.73566-4.60912-1.401-.95041.93388-1.826,1.94588-2.79921,2.85424-7.70792,7.19426-16.52581,12.62384-27.03025,17.56928-3.151-19.16027-6.153-37.41407-9.155-55.66786l-1.99237-.0069-2.9805,8.44721c-1.73447-2.72626-2.286-5.6031-3.29791-8.30776-.49626-1.32673-1.86925-3.27719-2.80519-3.25479-1.2633.03019-2.69788,1.51918-3.657,2.7068-.667.82593-.67847,2.19308-.94814,3.32667-4.69868,19.75081-9.452,39.489-14.02082,59.26981-.68054,2.94618-1.88378,4.25247-4.96231,4.28653-10.29208.11379-20.58575.31987-30.86965.72417-1.96215.0771-5.10624.779-5.53352,1.97093-.63049,1.75881.062,4.6843,1.27416,6.3002,8.581,11.439,17.52553,22.60519,26.11476,34.03829a9.89117,9.89117,0,0,1,1.84337,6.59236c-2.334,16.77673-5.176,33.48333-7.46211,50.266a179.72427,179.72427,0,0,0-1.2481,21.41525c-.02161,1.37667,2.6242,4.096,2.83925,3.97942,2.97055-1.60846,6.50914-3.04251,8.37656-5.62658,3.57632-4.94873,5.96508-10.73579,9.2246-15.93811,5.37964-8.58624,11.06467-16.98087,16.60925-25.464,1.62612-2.48792,3.3761-2.81072,5.6846-.72545,5.41816,4.89429,10.98453,9.62455,16.39884,14.523,3.173,2.87067,5.42451,2.72209,7.701-.8009.5805-.89832,1.15557-1.80025,1.76994-2.75786C1027.75024,507.58143,1029.2881,508.99717,1031.99056,511.48509Z" transform="translate(-55 119.11017)"/><path class="d" d="M868.35826,385.56948c-3.48421,7.88631-7.35089,15.63088-10.34152,23.70014-2.80361,7.56448-4.60065,15.49731-6.99985,23.21849-1.12547,3.62225-2.93386,7.04647-3.90093,10.70113-3.7755,14.26757-7.87682,28.48228-10.804,42.93-2.204,10.87857-3.10264,22.05688-4.05292,33.14716-2.14882,25.07809,3.93889,48.93212,11.552,72.48331a68.95118,68.95118,0,0,0,5.40845,12.84658c1.95172,3.43588,1.48347,6.091-.27761,9.26439-8.72254,15.71676-21.95209,15.58991-33.27057,12.34639-19.31457-5.535-34.78553-16.62834-46.87307-32.77712-15.88848-21.22687-23.53835-44.8991-22.05054-71.3491.86965-15.46111,3.7841-30.47355,9.86486-44.938,9.46772-22.52076,22.22335-42.80657,39.95141-59.56316,15.10447-14.27692,32.82949-24.78148,52.33579-32.092a4.57346,4.57346,0,0,1,4.10755.92336c5.39491,6.683,8.00611,6.73895,13.09019-.11126.36417-.4907.775-.94679,1.16417-1.41894Q867.81,385.22517,868.35826,385.56948Z" transform="translate(-55 119.11017)"/><path class="d" d="M576.2267,490.77453c-.08955,15.58638-9.40675,27.97074-24.78041,37.478-11.997,7.41889-24.26172,6.73312-36.973,4.57905-1.484-.2515-3.36735-2.77373-3.68116-4.49555-1.30673-7.17038-2.07218-14.43886-3.05744-21.6684-1.857-13.62587-3.80039-27.24033-5.57073-40.87738-1.32379-10.19751-2.36481-20.43164-3.67407-30.63117-.442-3.44332.35422-4.8394,4.20314-4.54492,20.24929,1.5493,38.97135,7.22263,54.71363,20.5044C568.71875,460.66243,576.87489,472.09309,576.2267,490.77453Z" transform="translate(-55 119.11017)"/><path class="d" d="M1073.01434,521.912c1.05387-17.947,2.36631-35.88335,3.10441-53.84337,1.29931-31.61691,2.98648-63.24487,3.13212-94.87463.14162-30.76805.10182-61.6929-8.42508-91.73511-1.12926-3.97853-2.546-7.87544-3.82958-11.81017l1.198-.76809c2.51549,4.50479,5.54585,8.80273,7.45381,13.55164,6.79218,16.906,9.82823,34.7776,11.51661,52.75538,1.879,20.00794,3.24444,40.11644,3.56271,60.20129.23659,14.92624-1.06651,29.93361-2.5664,44.8159-1.77531,17.61659-4.19374,35.1855-6.94106,52.67963-1.35706,8.6413-4.03229,17.08049-6.237,25.57847-.31308,1.20684-1.34064,2.22836-2.03748,3.33564Z" transform="translate(-55 119.11017)"/><path class="d" d="M851.45467,502.12157c.39188-4.26193.98673-8.02287,1.04014-11.7915a163.66053,163.66053,0,0,1,6.47569-42.67184c.31039-1.09038.04437-2.34221.33853-3.4407a26.4462,26.4462,0,0,1,1.51436-3.58788c.97195,1.015,2.34457,1.877,2.80635,3.08683a8.26285,8.26285,0,0,1,.07416,4.35331c-2.25271,11.05921-5.39771,22.001-6.761,33.163-2.5205,20.63706-3.59793,41.36666-1.16118,62.18984a207.10444,207.10444,0,0,0,16.2524,59.37289c2.23562,5.09982,3.31342,9.2114-.04395,14.21208-4.0799,6.077-9.96441,10.82449-16.55437,11.6586a43.27521,43.27521,0,0,1,.04273-6.13043c1.24432-8.52489.64526-16.26958-3.24065-24.59926-4.94485-10.59972-7.45808-22.37578-10.54754-33.77274-.87947-3.24438-.281-6.94306-.08057-10.41733.92025-15.95569,1.93944-31.90571,2.92312-47.85774q.92961.36627,1.85917.73247c.70594-1.25537,1.73167-2.43634,2.04487-3.7831.50523-2.17287.54125-4.45482,1.71756-6.71487C850.55127,497.95371,850.948,499.78424,851.45467,502.12157Z" transform="translate(-55 119.11017)"/><path class="d" d="M174.53862,487.82017c-3.55428-1.04617-7.15305-1.96269-10.65391-3.16441-8.17882-2.80749-16.25221-5.935-24.48663-8.562-3.98947-1.27277-5.59541-3.42654-5.52747-7.587.24709-15.12958.29137-30.26264.37808-45.3946a174.59792,174.59792,0,0,1,1.01822-22.25259q20.18853,42.79483,40.377,85.58969Z" transform="translate(-55 119.11017)"/><path class="d" d="M117.17815,360.39143c5.08638,13.89643,14.11127,26.12842,13.24909,42.43472-1.16809,22.09241-.54326,44.2795-.69835,66.42588a69.34982,69.34982,0,0,1-.231,8.482c-.32036,2.44733,1.11875,6.29586-3.59909,6.2054-6.15408-.11794-8.27267-1.76846-8.35281-6.51361-.37491-22.19985-.67874-44.40086-1.05372-66.60077-.24315-14.3954-.571-28.78937-.84546-43.18431-.04384-2.29942-.00615-4.60042-.00615-6.90069Q116.40941,360.56579,117.17815,360.39143Z" transform="translate(-55 119.11017)"/><path class="d" d="M455.17862,529.40274c7.399,47.11086,15.63913,94.10946,22.74708,141.26886l-3.17244.6221c-.95407-3.08573-2.27871-6.11011-2.80168-9.26726-3.23211-19.51164-6.14787-39.07615-9.43357-58.57839-3.27765-19.45469-6.94672-38.84309-10.29022-58.287-2.33222-13.56282-4.32831-27.1832-6.61191-40.75481-3.2748-19.462-6.6842-38.90144-10.01773-58.35363-1.98706-11.59506-4.40821-23.1425-5.74052-34.81343-.8781-7.69207-.16609-15.56568-.16609-23.358" transform="translate(-55 119.11017)"/><path class="d" d="M635.41815,677.85547a60.64691,60.64691,0,0,1-.66717-6.73526c.37473-41.80416.62078-83.61149,1.45246-125.40705.10744-5.4,3.30652-10.73848,5.07353-16.10549q.76663.17589,1.53322.35174a16.51665,16.51665,0,0,1,.48009,2.67514c.31991,18.8064.717,37.61237.87446,56.42036.19625,23.42977.30136,46.86186.17135,70.29145a45.79218,45.79218,0,0,1-2.22366,13.12348c-.73157,2.35441-3.14085,4.18751-4.7942,6.25551Z" transform="translate(-55 119.11017)"/><path class="d" d="M369.2131,400.26363c18.06583,88.13237,35.72825,176.34386,50.85613,265.0498.19188,1.12523-.54332,2.40863-.84578,3.61816l-1.30209.2388c-1.0416-2.65573-2.51167-5.22978-3.037-7.984-1.15331-6.0457-1.59811-12.226-2.7389-18.27464-4.81435-25.52591-9.77-51.02514-14.68866-76.53127-8.26349-42.85034-16.61575-85.68377-24.75331-128.558-2.017-10.62714-3.38932-21.3782-4.967-32.08573a36.86354,36.86354,0,0,1-.036-5.31958Q368.45681,400.34039,369.2131,400.26363Z" transform="translate(-55 119.11017)"/><path class="d" d="M777.31061,678.62933c-13.84526-3.45419-26.71381-8.85924-37.812-17.516-13.966-10.89372-26.41514-23.30249-35.99249-38.47224-4.19539-6.645-6.51244-13.36125-5.73533-21.16619.49077-4.92841.83583-9.87141,1.68888-15.098C714.53746,626.35534,739.47878,657.86237,777.31061,678.62933Z" transform="translate(-55 119.11017)"/><path class="d" d="M501.15851,423.2092c13.89605,2.28977,27.84807,4.28915,41.67209,6.95288,13.22878,2.54891,24.44557,9.21244,34.01792,18.64158,10.70227,10.54217,15.61679,23.48294,14.85817,38.33685-.456,8.92876-1.40668,17.95635-7.128,25.52725-.81764,1.082-1.59237,2.19631-2.38694,3.29572l-1.26928-.35766a48.084,48.084,0,0,1-.30294-5.13565c.349-7.98722.82227-15.96894,1.19438-23.95524.55407-11.88911-4.14571-21.79953-11.96692-30.31978-16.31448-17.77274-36.20668-28.53076-60.57256-30.31477-2.79881-.20493-5.57193-.76135-8.35694-1.15484Z" transform="translate(-55 119.11017)"/><path class="d" d="M119.259,656.98052c-.21573-5.84486-.67085-11.69266-.60121-17.53411.19025-15.9571.5424-31.91309.95183-47.86641.1915-7.46217.50673-14.93094,1.15719-22.36247.11207-1.2804,2.04487-3.16631,3.38689-3.41347,2.71581-.50014,3.664,1.43332,3.51156,4.07568-.94947,16.45265-1.81513,32.91019-2.75782,49.36321-.56128,9.79633-1.11894,19.59466-1.88136,29.37634a66.92809,66.92809,0,0,1-1.74445,8.50585Q120.27036,657.0528,119.259,656.98052Z" transform="translate(-55 119.11017)"/><path class="d" d="M1044.11112,581.57936c-.83193-4.75193-1.61-9.19607-2.388-13.64022q.76574-.2258,1.53145-.45167c1.30432.81372,2.6087,1.62745,4.97073,3.101V552.05481c3.84643,2.18209,7.16778,4.35356,7.03336-1.7842-.00848-.38538,2.49706-.82587,4.71681-1.51518,2.83583-5.04458,1.30889-11.19235-.258-17.33072A40.5294,40.5294,0,0,1,1058.39,526.635c-.09955-.7923.56976-2.34661,1.03452-2.40454.93777-.1169,2.74256.394,2.85231.92311,1.39778,6.74375,2.55834,13.53675,3.77916,20.31719q-10.05021,17.63806-20.13075,35.25874C1045.73517,581.06055,1045.097,581.13435,1044.11112,581.57936Z" transform="translate(-55 119.11017)"/><path class="d" d="M641.5019,392.38385V437.809c-10.45506-15.58058-2.1302-30.66157-2.17506-45.5076Z" transform="translate(-55 119.11017)"/><path class="d" d="M147.60845,320.71479c.61587-1.85148,1.16366-3.49833,2.17339-6.53388,3.174,6.7323,2.60819,12.45551,1.66526,18.35934-4.55608-9.82068-11.29085-18.61774-12.46413-29.76647C145.18346,307.06834,142.719,315.39667,147.60845,320.71479Z" transform="translate(-55 119.11017)"/><path class="d" d="M164.01158,359.65954c-2.849-8.6754-10.72473-15.61781-9.34646-26.315C161.056,336.2168,166.43863,351.362,164.01158,359.65954Z" transform="translate(-55 119.11017)"/><path class="d" d="M1072.94549,521.79858q-1.67567,7.48069-3.35126,14.9614l-1.84789-.293a36.443,36.443,0,0,0-.06-6.10943c-.66547-3.8613-1.80156-7.64092-2.48558-11.5-.25051-1.41336.22878-2.95607.37515-4.43981,1.34675.667,3.02054,1.03586,3.96393,2.07062a35.43739,35.43739,0,0,1,3.47474,5.423Z" transform="translate(-55 119.11017)"/><path class="d" d="M129.22167,279.808c2.29334,1.47025,4.30136,2.68039,6.20671,4.035a2.41919,2.41919,0,0,1,.8169,1.717c.06862,4.22964.0367,8.461.0367,13.29074C130.85693,293.7747,127.45981,283.56663,129.22167,279.808Z" transform="translate(-55 119.11017)"/><path class="d" d="M880.70009,399.24914c-3.06278,7.8238-6.12562,15.64754-9.31567,23.79634-2.61877-8.56518,1.7269-21.757,7.79875-24.44189Z" transform="translate(-55 119.11017)"/><path class="d" d="M1029.06579,597.16177c.20168-1.30629.02064-3.50211.665-3.77956,5.64609-2.43011,3.99042-7.092,3.86352-11.34508-.01691-.56777.44285-1.1497,1.19176-2.95246,2.19154,2.12251,5.04074,3.61541,5.32293,5.494.31241,2.08021-1.3432,4.80895-2.83119,6.7178-1.88744,2.4212-4.4691,4.30124-6.75141,6.4146Q1029.79615,597.43643,1029.06579,597.16177Z" transform="translate(-55 119.11017)"/><path class="d" d="M1017.73736,605.06841c.65839-3.32954,1.0485-6.75779,2.20644-9.90346.22579-.61343,4.59436-.78326,5.0275-.01544.92257,1.63543,1.3642,4.57673.45293,5.96616-1.31507,2.005-4.007,3.10679-6.11147,4.59395Q1018.52507,605.389,1017.73736,605.06841Z" transform="translate(-55 119.11017)"/><path class="d" d="M185.56538,392.455q3.07326,10.165,6.14652,20.33-.99078.3442-1.98157.68846-3.557-9.997-7.114-19.99414Q184.09085,392.96716,185.56538,392.455Z" transform="translate(-55 119.11017)"/><path class="d" d="M1007.86524,606.21812c.52923,5.10293-2.19752,6.078-5.06858,6.59034-.66864.11934-2.30508-1.56243-2.26626-1.62274,1.69334-2.627,3.52529-5.16472,5.34046-7.71325C1006.75528,604.69,1007.63964,605.90752,1007.86524,606.21812Z" transform="translate(-55 119.11017)"/><path class="d" d="M997.05737,614.13654a64.37693,64.37693,0,0,1-7.12272-.083c-1.06083-.117-2.64368-.96255-2.87356-1.78811a4.30668,4.30668,0,0,1,.9841-3.56706,3.24975,3.24975,0,0,1,3.21935.03491C993.10229,610.50745,998.66842,607.65516,997.05737,614.13654Z" transform="translate(-55 119.11017)"/><path class="d" d="M170.89669,360.76646l1.66568,13.34812C167.99677,369.80553,167.31625,365.64481,170.89669,360.76646Z" transform="translate(-55 119.11017)"/><path class="d" d="M176.64965,387.08054q-.89081-4.54253-1.78159-9.085,1.2364-.21156,2.47283-.42309.67334,4.58775,1.34669,9.1755Q177.6686,386.91424,176.64965,387.08054Z" transform="translate(-55 119.11017)"/><path class="d" d="M865.58268,436.769V425.25931q.81956.0445,1.63918.08906-.4404,5.74635-.88069,11.49269Z" transform="translate(-55 119.11017)"/><path class="k" d="M1031.99056,511.48509c-2.70246-2.48792-4.24032-3.90366-6.06916-5.58739-.61437.95761-1.18944,1.85954-1.76994,2.75786-2.27651,3.523-4.52806,3.67157-7.701.8009-5.41431-4.89843-10.98068-9.62869-16.39884-14.523-2.3085-2.08527-4.05848-1.76247-5.6846.72545-5.54458,8.48314-11.22961,16.87777-16.60925,25.464-3.25952,5.20232-5.64828,10.98938-9.2246,15.93811-1.86742,2.58407-5.406,4.01812-8.37656,5.62658-.21505.11659-2.86086-2.60275-2.83925-3.97942a179.72427,179.72427,0,0,1,1.2481-21.41525c2.28616-16.78266,5.12809-33.48926,7.46211-50.266a9.89117,9.89117,0,0,0-1.84337-6.59236c-8.58923-11.4331-17.53377-22.59926-26.11476-34.03829-1.21221-1.6159-1.90465-4.54139-1.27416-6.3002.42728-1.19195,3.57137-1.89383,5.53352-1.97093,10.2839-.4043,20.57757-.61038,30.86965-.72417,3.07853-.03406,4.28177-1.34035,4.96231-4.28653,4.56884-19.78079,9.32214-39.519,14.02082-59.26981.26967-1.13359.28109-2.50074.94814-3.32667.95907-1.18762,2.39365-2.67661,3.657-2.7068.93594-.0224,2.30893,1.92806,2.80519,3.25479,1.01187,2.70466,1.56344,5.5815,3.29791,8.30776l2.9805-8.44721,1.99237.0069c3.002,18.25379,6.004,36.50759,9.155,55.66786,10.50444-4.94544,19.32233-10.375,27.03025-17.56928.97317-.90836,1.8488-1.92036,2.79921-2.85424,2.376-2.3347,3.88835-1.29817,4.60912,1.401.55639,2.08344-.19337,4.8634,3.46382,4.87189a10.32765,10.32765,0,0,1,.49962,4.9176,139.61985,139.61985,0,0,1-24.99851,50.61712c-3.9483,5.099-5.50056,9.83711-4.03943,16.43575,2.93862,13.27041,4.90987,26.75961,7.06522,40.19308C1033.723,506.3349,1032.71646,508.26146,1031.99056,511.48509ZM959.884,537.0663l1.216.12508c.39683-.70518.81441-1.3995,1.18731-2.11714,4.28549-8.24689,5.85832-17.15539,7.28674-26.2715,2.23311-14.25091,5.54012-28.33138,8.18379-42.52283.35508-1.90574-.50108-4.03711-.79634-6.064q-.988.14119-1.97607.28233-.21937,4.34391-.4387,8.68794l-.68793-.01489V458.44988l-1.07407.061V471.25a21.38437,21.38437,0,0,1-.58062-7.49557c.70111-6.42381-1.79393-11.305-5.87914-16.20622a269.51215,269.51215,0,0,1-17.27551-23.6303c-2.85774-4.30545-5.89617-3.56938-10.18935-2.21627a36.05715,36.05715,0,0,0,2.39829,4.22683c7.96,10.24579,15.749,20.63852,24.08906,30.56743,3.20477,3.81521,4.03229,7.10769,3.245,12.07383-3.25353,20.52467-5.89037,41.14787-8.6684,61.74635A50.94478,50.94478,0,0,0,959.884,537.0663ZM996.9818,352.15665l-1.50942.09947c-.48863,1.54735-1.083,3.07007-1.44984,4.64578q-6.67516,28.67443-13.26867,57.36779c-1.19951,5.25726-.05921,6.568,5.17638,5.276,1.68241-.41522,3.65262-2.72954,4.11659-4.52943q5.29012-20.52433,9.94287-41.21074C1001.675,366.24848,998.98125,359.207,996.9818,352.15665Zm20.5642,59.76668q.65577.62624,1.31152,1.25251c10.02057-3.29358,19.60165-7.64146,27.50161-14.82973,2.11091-1.92064,2.52281-5.70868,3.84318-8.9551-1.41034-.06679-1.81535-.2176-2.02673-.07707-9.61844,6.39518-19.24823,12.77461-28.779,19.29854C1018.46216,409.2521,1018.14805,410.798,1017.546,411.92333Zm2.79555,96.03547c1.68405-5.63017-.89633-9.81457-5.49508-9.529-4.07044.253-5.049-1.53038-6.03595-4.842-.59661-2.00195-2.52007-3.75972-4.20479-5.21263-.686-.59176-2.31924-.085-3.52156-.07795.0119,1.21179-.49193,3.01253.1153,3.54429C1007.3558,497.23247,1013.69354,502.416,1020.34155,507.9588Z" transform="translate(-55 119.11017)"/><path class="d" d="M959.884,537.0663a50.94478,50.94478,0,0,1,.0401-6.75027c2.778-20.59848,5.41487-41.22168,8.6684-61.74635.7873-4.96614-.04022-8.25862-3.245-12.07383-8.34-9.92891-16.1291-20.32164-24.08906-30.56743a36.05715,36.05715,0,0,1-2.39829-4.22683c4.29318-1.35311,7.33161-2.08918,10.18935,2.21627a269.51215,269.51215,0,0,0,17.27551,23.6303c4.08521,4.90119,6.58025,9.78241,5.87914,16.20622a21.38437,21.38437,0,0,0,.58062,7.49557V458.51086l1.07407-.061v10.72139l.68793.01489q.21928-4.344.4387-8.68794.988-.14119,1.97607-.28233c.29526,2.02691,1.15142,4.15828.79634,6.064-2.64367,14.19145-5.95068,28.27192-8.18379,42.52283-1.42842,9.11611-3.00125,18.02461-7.28674,26.2715-.3729.71764-.79048,1.412-1.18731,2.11714Z" transform="translate(-55 119.11017)"/><path class="d" d="M996.9818,352.15665c1.99945,7.05037,4.69318,14.09183,3.00791,21.64887q-4.6134,20.68746-9.94287,41.21074c-.464,1.79989-2.43418,4.11421-4.11659,4.52943-5.23559,1.292-6.37589-.01874-5.17638-5.276q6.54864-28.70351,13.26867-57.36779c.36686-1.57571.96121-3.09843,1.44984-4.64578Z" transform="translate(-55 119.11017)"/><path class="d" d="M1017.546,411.92333c.602-1.12529.91616-2.67123,1.85063-3.31085,9.53072-6.52393,19.16051-12.90336,28.779-19.29854.21138-.14053.61639.01028,2.02673.07707-1.32037,3.24642-1.73227,7.03446-3.84318,8.9551-7.9,7.18827-17.481,11.53615-27.50161,14.82973Q1018.20177,412.54953,1017.546,411.92333Z" transform="translate(-55 119.11017)"/><path class="d" d="M1020.34155,507.9588c-6.648-5.54276-12.98575-10.72633-19.14208-16.11721-.60723-.53176-.1034-2.3325-.1153-3.54429,1.20232-.007,2.83552-.51381,3.52156.07795,1.68472,1.45291,3.60818,3.21068,4.20479,5.21263.98691,3.31159,1.96551,5.09494,6.03595,4.842C1019.44522,498.14423,1022.0256,502.32863,1020.34155,507.9588Z" transform="translate(-55 119.11017)"/></symbol></svg>
+<svg class="fx" aria-hidden="true">
+  <symbol id="reg" viewBox="0 0 26 26"><circle cx="13" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M13 0v26M0 13h26" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="13" r="2.4" fill="currentColor"/></symbol>
+  <!-- inchiostro serigrafico: bordi mangiati dal telaio + piccoli vuoti dove la spatola non ha coperto -->
+  <filter id="ink" x="-4%" y="-8%" width="108%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="1" seed="9" result="noise"/>
+    <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 9 -5.7" result="holes"/>
+    <feComposite in="rough" in2="holes" operator="out"/>
+  </filter>
+</svg>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Back to top"><img src="stella.png" alt="" width="40" height="46"><span class="who"><b data-fill="name"></b><span data-fill="role"></span></span></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav aria-label="Main">
+    <ul>
+        <li><a href="#top"><img src="stella.png" alt="">Home</a></li>
+        <li><a href="#project"><img src="stella.png" alt="">Project</a></li>
+        <li><a href="#identity"><img src="stella.png" alt="">Identity</a></li>
+        <li><a href="#merch"><img src="stella.png" alt="">Merch</a></li>
+        <li><a href="#upcoming"><img src="stella.png" alt="">Upcoming</a></li>
+        <li><a href="#about"><img src="stella.png" alt="">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<div class="wrap" id="top">
+  <div class="hero">
+    <svg class="reg tl" aria-hidden="true"><use href="#reg"/></svg><svg class="reg tl red" aria-hidden="true"><use href="#reg"/></svg>
+    <svg class="reg tr" aria-hidden="true"><use href="#reg"/></svg><svg class="reg tr red" aria-hidden="true"><use href="#reg"/></svg>
+    <svg class="reg bl" aria-hidden="true"><use href="#reg"/></svg><svg class="reg br" aria-hidden="true"><use href="#reg"/></svg>
+    <div class="hero-meta label">
+      <span>Portfolio</span>
+      <span>Brand identity · Art direction · Merch</span>
+      <span>2024 — present</span>
+    </div>
+    <h1><span class="logo3d" id="logo3d" role="img" aria-label="Atipico"><svg class="hero-logo" aria-hidden="true"><use href="#logo"/></svg><canvas id="chrome" aria-hidden="true"></canvas></span></h1>
+    <nav class="landing-nav" aria-label="Sections">
+      <a href="#project"><img src="stella.png" alt="" width="176" height="200"><b>Project</b></a>
+      <a href="#identity"><img src="stella.png" alt="" width="176" height="200"><b>Identity</b></a>
+      <a href="#merch"><img src="stella.png" alt="" width="176" height="200"><b>Merch</b></a>
+      <a href="#upcoming"><img src="stella.png" alt="" width="176" height="200"><b>Upcoming</b></a>
+      <a href="#about"><img src="stella.png" alt="" width="176" height="200"><b>Contact</b></a>
+    </nav>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<main class="wrap">
+  <!-- 0 · PROJECT -->
+  <section id="project" aria-labelledby="pro-h">
+    <div class="me">
+    <p class="intro">I’m <b data-fill="name"></b> (24), co-owner and art director of <em>Atipico</em>, an underground electronic music event format based in Northern Italy. Since 2024, I have led the development of Atipico’s brand, from strategy to creative execution.</p>
+    <p class="intro-body">Alongside logistics and operations, I lead the brand’s art direction: I define the musical direction, manage artist bookings and work closely with our graphic designer to translate concepts into visuals. I draw on art and nightlife culture, balancing market insight with a clear identity, without ever compromising it.</p>
+    </div>
+    <div class="sec-head">
+      <h2 id="pro-h">The project</h2>
+      <p>Three non-negotiables, and the best we can squeeze out of everything around them.</p>
+    </div>
+    <div class="brief pillars">
+      <article><b class="label">01 · Event production</b><p>Every night is produced to a high standard, from sound to space, whatever the budget.</p></article>
+      <article><b class="label">02 · Music</b><p>Line-ups curated for quality and coherence, night after night.</p></article>
+      <article><b class="label">03 · Communication</b><p>Every touchpoint, from posters and posts to merch, is held to the same standard as the night itself.</p></article>
+    </div>
+    <p class="statement">Around these, we push for the best in everything we touch. That’s how Atipico grows on a <mark>lean budget</mark>, without ever selling out.</p>
+
+    <h3 class="sub">Atipico’s manifesto</h3>
+    <figure class="manifesto-art">
+      <img src="manifesto.png" width="1164" height="1560" alt="Atipico’s manifesto in red, inside an ornate engraved frame with angels: “A multi-media extravaganza, a crossover of dance sounds in one room with added light design and visuals, a hidden gem-event of undiscovered music. A celebration of unordinary pleasure. Not just a party, but the representation of who we are. This is our manifesto. Est. MMXXIV. XOXO”">
+    </figure>
+
+    <div class="media" aria-label="Photos and videos from Atipico nights">
+      <figure class="m"><img src="photo-crowd.jpg" alt="Crowd with raised hands under red light, the Atipico neon sign above the DJ booth" width="1125" height="1500" loading="lazy"></figure>
+      <figure class="m"><video src="video-1.mp4" muted loop playsinline autoplay preload="auto" disablepictureinpicture aria-label="Video: the crowd dancing under red lasers"></video></figure>
+      <figure class="m"><img src="photo-scarf.jpg" alt="A girl dancing with eyes closed, wearing the Too Late long-sleeve, next to the illuminated event poster" width="1200" height="1500" loading="lazy"></figure>
+      <figure class="m"><video src="video-2.mp4" muted loop playsinline autoplay preload="auto" disablepictureinpicture aria-label="Video: hands forming a heart against a beam of light"></video></figure>
+    </div>
+    <div class="films">
+      <figure class="film"><video data-src="video-3.mp4" muted loop playsinline preload="none" aria-label="Video from an Atipico night"></video><button type="button" class="film-hit" aria-pressed="false" aria-label="Turn sound on"><span class="film-tag"><i class="eq" aria-hidden="true"><b></b><b></b><b></b></i><span>Tap for sound</span></span></button><span class="film-bar" aria-hidden="true"><span></span></span></figure>
+      <figure class="film"><video data-src="video-4.mp4" muted loop playsinline preload="none" aria-label="Video: the Atipico logo on a glitching screen"></video><button type="button" class="film-hit" aria-pressed="false" aria-label="Turn sound on"><span class="film-tag"><i class="eq" aria-hidden="true"><b></b><b></b><b></b></i><span>Tap for sound</span></span></button><span class="film-bar" aria-hidden="true"><span></span></span></figure>
+    </div>
+  </section>
+
+  <!-- 1 · BRAND IDENTITY -->
+  <section id="identity" aria-labelledby="id-h">
+    <div class="sec-head">
+      <h2 id="id-h">Brand identity</h2>
+      <p>Hand-drawn lettering, a star and a single ink. The visual language fuses 90s London rave flyers with screen printing, and turns what’s raw, underground and authentic into its biggest asset.</p>
+    </div>
+
+    <div class="brief influences">
+      <article><b class="label">90s London rave flyers</b><p>Stacked, centred info, clashing typefaces, stars and “featuring” lines: the DIY energy of photocopied flyers.</p></article>
+      <article><b class="label">Screen printing</b><p>One ink, printed solid, every time. Each piece is designed to be pulled by hand in a single colour.</p></article>
+      <article><b class="label">Raw and authentic</b><p>Hand-drawn lines and visible flaws, nothing polished away. Being underground is our point of difference, not something to hide.</p></article>
+    </div>
+
+    <div class="id-grid">
+      <figure class="plate plate-logo">
+        <div class="plate-art"><svg role="img" aria-label="Atipico logotype"><use href="#logo"/></svg></div>
+        <figcaption><b class="label">Logotype</b><span>Hand lettering with an arching A and the star locked inside the O. Used worn and imperfect, to echo the look of a tired screen print.</span></figcaption>
+      </figure>
+      <figure class="plate plate-star">
+        <div class="plate-art"><img src="stella-grande.png" alt="Symbol: hand-drawn red star" width="316" height="360"></div>
+        <figcaption><b class="label">Symbol</b><span>The star works on its own too, as a shorthand for the brand: on merch, socials, stamps and stickers.</span></figcaption>
+      </figure>
+      <figure class="plate plate-tagline">
+        <div class="tagline-art">
+          <p class="tagline"><span class="tl-star" aria-hidden="true">★</span> A celebration <span class="tl-of">of</span> <em>unordinary</em> pleasure <span class="tl-star" aria-hidden="true">★</span></p>
+        </div>
+        <figcaption><b class="label">Tagline</b><span><b>Insight.</b> Atipico has no fixed recurrence: every night is a one-off.</span><span><b>Promise.</b> One night to celebrate outside the ordinary and let go.</span><span><b>Positioning.</b> Not a weekly club night, but a rare one-off occasion.</span><span><b>Value.</b> Unordinary means unmissable. Price, timing and distance stop mattering: you do whatever it takes to be there, then let go.</span></figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">Instagram flyers</h3>
+    <p class="camp-intro">Animated flyers for past Atipico nights, made for Instagram, then printed and put up around town: one design, online and offline.</p>
+    <div class="past">
+      <video data-src="poster-anim-1.mp4" poster="poster-still-1.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: March 22nd at Too Late Club, with Fabrizio Sala and Edo Antonello"></video>
+      <video data-src="poster-anim-2.mp4" poster="poster-still-2.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico at Too Late Club, October 18"></video>
+      <video data-src="poster-anim-6.mp4" poster="poster-still-6.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico, November 22nd, Dante and Edo A at Too Late Club"></video>
+      <video data-src="poster-anim-3.mp4" poster="poster-still-3.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico on a blue background with dancing figures"></video>
+      <video data-src="poster-anim-5.mp4" poster="poster-still-5.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico, January 17th, Edo A and Mattia Fontana at Too Late Club"></video>
+      <video data-src="poster-anim-7.mp4" poster="poster-still-7.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico's 1st anniversary, with Edo Antonello, Pietro and Leo Benassi"></video>
+      <video data-src="poster-anim-4.mp4" poster="poster-still-4.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico at Too Late Club, February 21st"></video>
+      <video data-src="poster-anim-8.mp4" poster="poster-still-8.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-label="Animated poster: Atipico with Jardincinqcent, June 14th"></video>
+    </div>
+  </section>
+
+  <!-- 3 · MERCH + PROMOTION -->
+  <section id="merch" aria-labelledby="merch-h">
+    <div class="sec-head">
+      <h2 id="merch-h">Merch</h2>
+      <p>Every piece starts from one of our own event posters and is screen printed by hand in small runs. It drops at the merch stand on the night first, then online.</p>
+    </div>
+    <h3 class="sub sub-first">From poster to merch</h3>
+    <figure class="showcase">
+      <div class="pair">
+        <div class="pair-item"><div class="pair-img"><img src="poster-too-late.jpg" alt="Poster for Atipico at Too Late, Bassano del Grappa, Saturday 9 November, featuring Mattias Clay and Edo Antonello, on an orange and black fire background" width="1080" height="1080" loading="lazy"></div><span class="label">01 · Event poster</span></div>
+        <span class="pair-arrow" aria-hidden="true">→</span>
+        <div class="pair-item"><div class="pair-img pair-white"><img src="longsleeve-too-late.jpg" alt="White long-sleeve T-shirt printed in black with the same layout: event details, stars around Featuring and the Atipico logo" width="1300" height="1253" loading="lazy"></div><span class="label">02 · Design</span></div>
+        <span class="pair-arrow" aria-hidden="true">→</span>
+        <div class="pair-item"><div class="pair-img pair-photo"><img src="longsleeve-finished.jpg" alt="The finished long-sleeve worn under red light, with the Too Late poster reflected behind" width="1440" height="1800" loading="lazy"></div><span class="label">03 · Finished piece</span></div>
+      </div>
+      <figcaption>
+        <p>Our merch always starts from one of our own event posters. This long-sleeve lifts its layout straight from the Too Late poster: stacked details, stars around “Featuring” and the logo billed as the headliner.</p>
+        <p>On the shirt, the fire background drops out and the design goes one-colour, black on white. The finished piece was shot next to the poster that inspired it: the night stays wearable long after it’s over.</p>
+      </figcaption>
+    </figure>
+
+    <h3 class="sub">Campaigns</h3>
+    <p class="camp-intro">Four campaigns: three prints lifted from our posters, and a gift keychain cut from the logo.</p>
+    <div class="campaigns">
+      <article class="camp">
+        <header class="camp-head"><h4>Dancing figures</h4><p>White tee, one red ink: dancing figures, stars and a moon orbiting the logo. Shot against a blue wall, on a red bench and in front of a pink curtain.</p></header>
+        <div class="camp-imgs">
+          <img src="camp-figures-1.jpg" alt="Model standing against a bright blue wall wearing the white Atipico tee with red dancing figures" width="960" height="1200" loading="lazy">
+          <img src="camp-figures-2.jpg" alt="Model sitting on a red bench with a pink ice cream, wearing the white tee with red print" width="960" height="1200" loading="lazy">
+          <img src="camp-figures-3.jpg" alt="Close-up of the red print of figures, stars and moon on the white tee, in front of a pink curtain" width="960" height="1200" loading="lazy">
+        </div>
+      </article>
+      <article class="camp">
+        <header class="camp-head"><h4>Crying star boy</h4><p>One graphic, two colourways: acid green on an olive tee, white on a royal blue crewneck. Shot on a washing line against a red sky.</p></header>
+        <div class="camp-imgs">
+          <img src="camp-crying-1.jpg" alt="Olive tee and blue crewneck hanging on a washing line against a red sky, both printed with a crying boy under a ring of stars" width="960" height="1200" loading="lazy">
+          <img src="camp-crying-2.jpg" alt="Royal blue crewneck with the white crying star boy print, hanging on a line" width="960" height="1200" loading="lazy">
+          <img src="camp-crying-3.jpg" alt="Olive tee with the acid green crying star boy print, hanging on a line" width="960" height="1200" loading="lazy">
+        </div>
+      </article>
+      <article class="camp">
+        <header class="camp-head"><h4>Silly Billy</h4><p>Black long-sleeve, one pink ink: star-eyed heads and the line “You’re alive, act like it”. Shot in rooms full of music references.</p></header>
+        <div class="camp-imgs">
+          <img src="camp-billy-1.jpg" alt="Person hiding their face behind a pink David Bowie book, wearing the black long-sleeve with pink star-eyed heads" width="963" height="1200" loading="lazy">
+          <img src="camp-billy-2.jpg" alt="Back view of the black long-sleeve with pink print, framed music posters on the wall" width="963" height="1200" loading="lazy">
+          <img src="camp-billy-3.jpg" alt="Close-up of the pink print on the black long-sleeve, with ferns and a pink wall" width="963" height="1200" loading="lazy">
+        </div>
+      </article>
+      <article class="camp">
+        <header class="camp-head"><h4>Atipico keychain</h4><p>A gift for our crowd: a metal keychain cut in the shape of the logo. Launched with an X-ray scan of a tote bag, status: “Ready for the dancefloor”.</p></header>
+        <div class="camp-imgs camp-fixed">
+          <img src="camp-keychain-1.jpg" alt="X-ray style scan of a tote bag full of party essentials, with the Atipico keychain at the centre" width="1123" height="1400" loading="lazy">
+          <img src="camp-keychain-2.jpg" alt="A pile of silver metal Atipico keychains" width="1050" height="1400" loading="lazy">
+          <img src="camp-keychain-3.jpg" alt="The Atipico keychain hanging from a chain on black jeans" width="787" height="1400" loading="lazy" style="object-position: 50% 66%">
+        </div>
+      </article>
+    </div>
+
+
+  </section>
+
+  <!-- 3b · UPCOMING -->
+  <section id="upcoming" aria-labelledby="up-h">
+    <div class="sec-head">
+      <h2 id="up-h">Upcoming events</h2>
+    </div>
+    <article class="event">
+      <img class="event-poster" src="upcoming-zelda.jpg" width="1080" height="1350" loading="lazy" alt="Poster for Atipico × Zelda at Villa Bussandri, Bassano del Grappa, October 10th from 4pm, with Gäbrø, Mystic Natur4l, Jektojack and Zando, on a green background with yellow spotted mushrooms">
+      <div class="event-info">
+        <span class="label event-tag">Next up</span>
+        <h3 class="event-title">Atipico × Zelda</h3>
+        <dl class="event-facts">
+          <div><dt class="label">Date</dt><dd>Saturday, October 10th</dd></div>
+          <div><dt class="label">Time</dt><dd>From 4pm</dd></div>
+          <div><dt class="label">Venue</dt><dd>Villa Bussandri, Bassano del Grappa</dd></div>
+          <div><dt class="label">Line-up</dt><dd>Gäbrø · Mystic Natur4l · Jektojack · Zando</dd></div>
+        </dl>
+        <a class="btn event-btn" href="https://xceed.me/en/bassano-del-grappa/event/atipico-x-zelda-at-villa-bussandri-bassano/246517/channel/now-here-agency-1" target="_blank" rel="noopener">Get tickets ↗</a>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- 4 · CONTACT -->
+  <section id="about" aria-labelledby="about-h">
+    <div class="sec-head">
+      <h2 id="about-h">Get in touch</h2>
+    </div>
+    <div class="contact-box">
+      <p class="big-mail" id="mail" data-fill="email"></p>
+      <div class="actions">
+        <button class="btn" type="button" id="copy">Copy address</button>
+        <a class="btn ghost" id="mailto" href="#">Send an email</a>
+      </div>
+      <ul class="channels mono" id="links"></ul>
+    </div>
+    <h3 class="sub">Follow us</h3>
+    <div class="follow-stars">
+      <a class="fstar" href="https://www.instagram.com/a.tipic.o/" target="_blank" rel="noopener"><img src="stella-grande.png" alt="" width="316" height="360"><b class="label">Instagram ↗</b><span class="mono">@a.tipic.o</span></a>
+      <a class="fstar" href="https://soundcloud.com/atipico36061/atipico-mix-001" target="_blank" rel="noopener"><img src="stella-grande.png" alt="" width="316" height="360"><b class="label">SoundCloud ↗</b><span class="mono">Atipico Mix 001</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <svg class="reg tl" aria-hidden="true"><use href="#reg"/></svg><svg class="reg tr" aria-hidden="true"><use href="#reg"/></svg>
+    <div class="colorbar label" aria-label="Brand colours">
+      <span><i style="background: var(--red)"></i>Star red</span>
+      <span><i style="background: var(--ink)"></i>Opaque white</span>
+      <span><i style="background: var(--bg)"></i>Black paper</span>
+    </div>
+    <div class="foot-row label">
+      <span>© 2026 <span data-fill="name"></span></span>
+      <span>Atipico</span>
+      <span>One ink, always</span>
+    </div>
+  </footer>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---------- CONTENT: edit here ----------
+   Posters: put the image file name in "poster" (e.g. "posters/atp-012.jpg").
+   While it's empty, the site draws a placeholder poster.
+   Merch: same thing with "photo". */
+// About you: these fill the header, intro and contact section
+const PROFILE = {
+  name: "Edoardo Antonello",
+  role: "Co-owner · Art director",
+  roleLong: "co-owner and art director of Atipico",
+  city: "Northern Italy",
+  bio: "I work on visual identities, print and communication for music and underground culture, moving between digital and analogue: hand drawing, screen printing, 3D.",
+  email: "antonelloedoardo@gmail.com",
+  services: ["Brand identity", "Art direction", "Posters", "Merch", "Screen printing", "3D visuals"],
+  links: [["Instagram", "https://www.instagram.com/edo.antonello/", "@edo.antonello"], ["LinkedIn", "https://www.linkedin.com/in/edoardo-antonello-57551b257", "Edoardo Antonello"]],
+};
+
+const ARCHIVE = [
+  { cat: "ATP-012", title: "Cemento", date: "2026-09-13", where: "Former tram depot", lineup: "Nodo, Lune Basse", format: "Screen print · 50×70", poster: "" },
+  { cat: "ATP-011", title: "Open Air", date: "2026-07-19", where: "Disused quarry", lineup: "Vera Kastel, Ossidiana", format: "Screen print · 50×70", poster: "" },
+  { cat: "ATP-010", title: "Fumo", date: "2026-05-24", where: "Warehouse 7", lineup: "Teo Rinaldi, Marco Dalla live", format: "Screen print · 50×70", poster: "" },
+  { cat: "ATP-009", title: "Dub Session", date: "2026-03-07", where: "Basement", lineup: "Lune Basse, resident", format: "Digital · 4:5 post", poster: "" },
+  { cat: "ATP-008", title: "Inverno", date: "2026-01-17", where: "Former print shop", lineup: "Nodo b2b Vera Kastel", format: "Screen print · 50×70", poster: "" },
+  { cat: "ATP-007", title: "Ferro", date: "2025-11-22", where: "Former foundry", lineup: "Ossidiana, Teo Rinaldi", format: "Screen print · 50×70", poster: "" },
+  { cat: "ATP-005", title: "Elettrico", date: "2025-06-14", where: "Railway underpass", lineup: "Marco Dalla live, Nodo", format: "Photocopy · A3", poster: "" },
+  { cat: "ATP-004", title: "Nebbia", date: "2025-02-08", where: "Warehouse 7", lineup: "Lune Basse, Vera Kastel", format: "Photocopy · A3", poster: "" },
+  { cat: "Atipico × Too Late", title: "Too Late", date: "2024-11-09", where: "Too Late, Bassano del Grappa", lineup: "Mattias Clay, Edo Antonello", format: "Digital · 1:1 post", poster: "poster-too-late.jpg" },
+  { cat: "ATP-001", title: "Zero", date: "2024-04-20", where: "Private garage", lineup: "Nodo, Vera Kastel", format: "Photocopy · A4", poster: "" },
+];
+
+// kind: tee | tote | print | sticker (only used for the placeholder mockup)
+const MERCH = [
+  { name: "Too Late long-sleeve", kind: "tee", tech: "Black print on a white long-sleeve, from the Too Late poster", run: "", price: "", status: "From the poster", photo: "longsleeve-finished.jpg" },
+  { name: "Star T-shirt", kind: "tee", tech: "1-colour screen print on black cotton", run: "80 pieces", price: "€30", status: "Sold out", photo: "" },
+  { name: "Atipico tote", kind: "tote", tech: "1-colour screen print on natural canvas", run: "60 pieces", price: "€18", status: "Available", photo: "" },
+  { name: "ATP-011 print", kind: "print", tech: "Screen print · 50×70 · numbered", run: "30 copies", price: "€25", status: "Last 6", photo: "" },
+  { name: "Sticker pack", kind: "sticker", tech: "5 die-cut vinyl stickers", run: "500 sets", price: "Free", status: "At the door", photo: "" },
+];
+/* ---------- end of content ---------- */
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// profilo
+document.querySelectorAll("[data-fill]").forEach((el) => (el.textContent = PROFILE[el.dataset.fill] ?? ""));
+document.title = `${PROFILE.name} · Atipico Portfolio`;
+document.documentElement.lang = "en";
+$("#mailto").href = `mailto:${PROFILE.email}`;
+if ($("#services")) $("#services").innerHTML = PROFILE.services.map((s) => `<li>${esc(s)}</li>`).join("");
+$("#links").innerHTML = PROFILE.links.map(([l, h, d]) => `<li><a href="${esc(h)}" target="_blank" rel="noopener">${esc(l)} ↗</a><span>${esc(d)}</span></li>`).join("");
+
+// nastro: la tagline di Atipico, ripetuta
+const tick = Array(6).fill("A celebration of unordinary pleasure");
+$("#ticker").innerHTML = tick.map((t) => `<span>${esc(t)}</span>`).join("");
+
+// merch: foto se c'è, altrimenti mockup provvisorio disegnato in SVG
+const LOGO_SVG = (x, y, w, fg, bg) => `<svg x="${x}" y="${y}" width="${w}" height="${w * 555 / 1080}" style="--logo-fg:${fg};--logo-bg:${bg}"><use href="#logo"/></svg>`;
+const MOCK = {
+  tee: `<path d="M70 26 52 32 16 56l15 30 19-10v108h100V76l19 10 15-30-36-24-18-6q-30 20-60 0Z" fill="#161412" stroke="var(--ink-soft)" stroke-width="1.2"/>
+        <image href="stella.png" x="82" y="64" width="36" height="41"/>`,
+  tote: `<path d="M72 72c0-44 56-44 56 0" fill="none" stroke="var(--ink)" stroke-width="7"/>
+         <path d="M40 70h120l6 116H34Z" fill="var(--ink)"/>
+         ${LOGO_SVG(52, 108, 96, "var(--bg)", "var(--ink)")}`,
+  print: `<rect x="48" y="22" width="104" height="146" fill="#161412" stroke="var(--ink-soft)" stroke-width="1.2" transform="rotate(-3 100 95)"/>
+          <g transform="rotate(-3 100 95)"><circle cx="100" cy="80" r="34" fill="var(--red)"/><circle cx="104" cy="77" r="34" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="2 4"/>
+          <text x="58" y="150" fill="var(--ink)" font-family="Big Shoulders Display, Impact" font-weight="900" font-size="24">OPEN AIR</text>
+          <text x="58" y="36" fill="var(--ink)" font-family="JetBrains Mono, monospace" font-size="7">ATP-011</text></g>`,
+  sticker: `<circle cx="78" cy="84" r="44" fill="var(--ink)"/>${LOGO_SVG(40, 66, 76, "var(--bg)", "var(--ink)")}
+            <g transform="rotate(12 132 124)"><rect x="96" y="100" width="76" height="46" rx="4" fill="var(--red)"/>
+            <text x="106" y="132" fill="var(--on-red)" font-family="Big Shoulders Display, Impact" font-weight="900" font-size="24">ATP</text></g>
+            <image href="stella.png" x="120" y="30" width="44" height="50" transform="rotate(-10 142 55)"/>`,
+};
+if ($("#merchlist")) $("#merchlist").innerHTML = MERCH.map((m) => `
+  <article class="merch">
+    <div class="merch-art">${m.photo
+      ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">`
+      : `<svg viewBox="0 0 200 200" role="img" aria-label="${esc(m.name)}">${MOCK[m.kind] || ""}</svg>`}
+      <span class="merch-status label">${esc(m.status)}</span>
+    </div>
+    <h3>${esc(m.name)}</h3>
+    <p>${esc(m.tech)}</p>
+    ${m.run || m.price ? `<div class="row mono"><span>${m.run ? `Run of ${esc(m.run)}` : ""}</span><span>${esc(m.price || "")}</span></div>` : ""}
+  </article>`).join("");
+
+
+// menu hamburger
+(function burgerMenu() {
+  const btn = document.querySelector(".burger"), menu = document.getElementById("menu");
+  const set = (open) => {
+    menu.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.classList.toggle("menu-open", open);
+  };
+  btn.addEventListener("click", () => set(menu.hidden));
+  menu.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { set(false); btn.focus(); } });
+  addEventListener("hashchange", () => set(false));
+})();
+
+
+// home + pagine: #project, #identity, #merch, #upcoming, #about. Senza hash si vede la home.
+(function pages() {
+  const hero = document.getElementById("top"), ticker = document.querySelector(".ticker");
+  const secs = [...document.querySelectorAll("main > section")];
+  const ids = secs.map((s) => s.id);
+  const label = (s) => s.querySelector("h2").textContent;
+  secs.forEach((s, i) => {
+    const next = secs[(i + 1) % secs.length];
+    s.insertAdjacentHTML("afterbegin", `<nav class="page-nav head"><a href="#top"><img src="stella.png" alt="">← Home</a></nav>`);
+    s.insertAdjacentHTML("beforeend", `<nav class="page-nav bottom"><a href="#top">← Home</a><a href="#${next.id}">Next: ${label(next)} →<img src="stella.png" alt=""></a></nav>`);
+  });
+  function show() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const view = ids.includes(id) ? id : "home";
+    document.body.dataset.view = view;
+    hero.hidden = view !== "home";
+    ticker.hidden = view === "home";
+    secs.forEach((s) => (s.hidden = s.id !== view));
+    document.querySelectorAll("nav a[href^='#']").forEach((a) => a.toggleAttribute("aria-current", a.getAttribute("href") === `#${view}`));
+    window.scrollTo(0, 0);
+    window.dispatchEvent(new Event("resize")); // i 3D ricalcolano la misura quando tornano visibili
+  }
+  addEventListener("hashchange", show);
+  show();
+})();
+
+// video tipo GIF: muti e in loop, fermi per chi riduce il movimento
+document.querySelectorAll(".media video").forEach((v) => {
+  if (reduced) { v.removeAttribute("autoplay"); v.pause(); }
+});
+// video con audio: anteprima muta in loop quando sono visibili, un clic attiva l'audio (uno alla volta)
+const films = [...document.querySelectorAll(".film")];
+function setSound(f, on) {
+  const v = f.querySelector("video"), b = f.querySelector(".film-hit");
+  v.muted = !on;
+  b.setAttribute("aria-pressed", String(on));
+  b.setAttribute("aria-label", on ? "Turn sound off" : "Turn sound on");
+  b.querySelector(".film-tag span").textContent = on ? "Sound on" : (reduced && v.paused ? "Play with sound" : "Tap for sound");
+}
+films.forEach((f) => {
+  const v = f.querySelector("video"), bar = f.querySelector(".film-bar span");
+  v.addEventListener("timeupdate", () => { if (v.duration) bar.style.width = `${(v.currentTime / v.duration) * 100}%`; });
+  f.querySelector(".film-hit").addEventListener("click", () => {
+    if (!v.src) v.src = v.dataset.src;
+    const turnOn = v.muted || v.paused;
+    films.forEach((o) => { if (o !== f) { setSound(o, false); if (reduced) o.querySelector("video").pause(); } });
+    if (turnOn) { v.currentTime = 0; setSound(f, true); v.play().catch(() => setSound(f, false)); }
+    else { setSound(f, false); if (reduced) v.pause(); }
+  });
+  if (reduced) { setSound(f, false); return; }
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); }
+    else { v.pause(); if (!v.muted) setSound(f, false); }
+  }, { threshold: 0.35 }).observe(f);
+});
+
+// locandine animate: come GIF. Ognuna mostra subito un fotogramma fermo; quando la sezione
+// si avvicina, i video si scaricano uno alla volta (in ordine) e ognuno parte appena è pronto.
+// Fuori schermo il browser li mette in pausa da sé.
+(function pastPosters() {
+  const vids = [...document.querySelectorAll(".past video")];
+  if (!vids.length || reduced) return;
+  let started = false;
+  const next = (i) => {
+    if (i >= vids.length) return;
+    const v = vids[i];
+    let moved = false;
+    const go = () => { if (!moved) { moved = true; next(i + 1); } };
+    v.addEventListener("canplay", () => { v.play().catch(() => {}); }, { once: true });
+    v.addEventListener("canplaythrough", go, { once: true });
+    v.addEventListener("error", go, { once: true });
+    setTimeout(go, 6000); // se un file è lento, non blocca gli altri
+    v.autoplay = true; v.preload = "auto"; v.src = v.dataset.src;
+  };
+  const io = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !started) { started = true; io.disconnect(); next(0); }
+  }, { rootMargin: "600px 0px" });
+  io.observe(document.querySelector(".past"));
+  // se il download si interrompe, riprova fino a 3 volte
+  vids.forEach((v) => {
+    let tries = 0;
+    v.addEventListener("error", () => {
+      if (tries >= 3) return;
+      tries++;
+      setTimeout(() => { v.src = `${v.dataset.src}?r=${tries}`; v.load(); }, 800 * tries);
+    });
+  });
+  // se una locandina pronta è ferma (pagina tornata visibile, o rientrata nello schermo), la fa ripartire
+  const kick = (v) => { if (v.src && v.paused && v.readyState >= 2) v.play().catch(() => {}); };
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) vids.forEach(kick); });
+  const seen = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) kick(e.target); }), { threshold: 0.15 });
+  vids.forEach((v) => { seen.observe(v); v.addEventListener("canplay", () => kick(v)); });
+})();
+
+// flyer generativi: retino a mezzitoni, seme dal numero di catalogo
+const starImg = new Image(); starImg.src = "stella.png";
+starImg.onload = () => document.querySelectorAll(".flyer canvas").forEach(drawFlyer);
+function rng(seed) { let h = 2166136261; for (const c of seed) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return () => ((h = Math.imul(h ^ (h >>> 15), 2246822507), h = Math.imul(h ^ (h >>> 13), 3266489909), (h ^= h >>> 16) >>> 0) / 4294967296); }
+function drawFlyer(cv) {
+  const r = rng(cv.dataset.cat), dpr = Math.min(devicePixelRatio || 1, 2);
+  const W = cv.clientWidth, H = cv.clientHeight; if (!W) return;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const g = cv.getContext("2d"); g.scale(dpr, dpr);
+  const css = getComputedStyle(document.documentElement);
+  const ink = css.getPropertyValue("--ink").trim(), bg = css.getPropertyValue("--bg-2").trim(), red = css.getPropertyValue("--red").trim();
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  const mode = Math.floor(r() * 3), cx = W * (0.25 + r() * 0.5), cy = H * (0.3 + r() * 0.35), step = 7 + Math.floor(r() * 4);
+  const ang = r() * Math.PI, freq = 10 + r() * 6;
+  const field = (x, y) => {
+    const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy);
+    if (mode === 0) return 1 - d / (W * 0.62);                                           // sole
+    if (mode === 1) return 0.5 + 0.5 * Math.sin(d / freq);                               // onde
+    return 0.5 + 0.5 * Math.sin((dx * Math.cos(ang) + dy * Math.sin(ang)) / 18) * (1 - y / H); // pendenza
+  };
+  // due passaggi di inchiostro: rosso a retino, poi bianco a retino ruotato e fuori registro
+  const pass = (color, ox, oy, inv, s) => {
+    g.fillStyle = color;
+    for (let y = -s; y < H + s; y += s) for (let x = -s; x < W + s; x += s) {
+      let v = Math.max(0, Math.min(1, field(x, y))); if (inv) v = 1 - v;
+      const rad = (s / 2) * v * 1.05;
+      if (rad > 0.5) { g.beginPath(); g.arc(x + ox, y + oy, rad, 0, Math.PI * 2); g.fill(); }
+    }
+  };
+  pass(red, 0, 0, false, step);
+  g.globalAlpha = 0.9; pass(ink, 2 + r() * 3, -1 - r() * 2, true, step + 3); g.globalAlpha = 1;
+  // stella stampata sopra, un po' storta
+  if (starImg.complete && starImg.naturalWidth && r() > 0.45) {
+    const sh = H * (0.28 + r() * 0.14), sw = sh * starImg.naturalWidth / starImg.naturalHeight;
+    g.save(); g.translate(W * (0.2 + r() * 0.6), H * (0.25 + r() * 0.3)); g.rotate((r() - 0.5) * 0.8);
+    g.drawImage(starImg, -sw / 2, -sh / 2, sw, sh); g.restore();
+  }
+  // titolo: bianco con il rosso fuori registro
+  g.textBaseline = "alphabetic";
+  g.font = `900 ${Math.round(W * 0.17)}px "Big Shoulders Display", Impact, sans-serif`;
+  g.fillStyle = bg; g.fillRect(0, H - 58, W, 58);
+  g.fillStyle = red; g.fillText(cv.dataset.title.toUpperCase(), 10, H - 14, W - 24);
+  g.fillStyle = ink; g.fillText(cv.dataset.title.toUpperCase(), 13, H - 16, W - 24);
+  g.font = `500 11px "JetBrains Mono", monospace`;
+  g.fillStyle = red; g.fillRect(10, 10, g.measureText(cv.dataset.cat).width + 12, 20);
+  g.fillStyle = ink; g.fillText(cv.dataset.cat, 16, 24);
+  g.fillText(cv.dataset.date, W - g.measureText(cv.dataset.date).width - 10, 24);
+}
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => document.querySelectorAll(".flyer canvas").forEach(drawFlyer), 150); });
+
+
+// copia email
+$("#copy").addEventListener("click", async () => {
+  const text = $("#mail").textContent.trim();
+  const toast = (m) => { const el = $("#toast"); el.textContent = m; el.hidden = false; clearTimeout(el._t); el._t = setTimeout(() => (el.hidden = true), 2200); };
+  try { await navigator.clipboard.writeText(text); toast("Address copied"); }
+  catch (e) { const s = getSelection(), rg = document.createRange(); rg.selectNodeContents($("#mail")); s.removeAllRanges(); s.addRange(rg); toast("Address selected: press Cmd+C"); }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/SVGLoader.js"></script>
+<script>
+// logo 3D cromato: estrude il path del logo e lo fa girare; trascinalo per farlo ruotare più veloce
+(function chromeLogo() {
+  const wrap = document.getElementById("logo3d"), cv = document.getElementById("chrome");
+  if (!window.THREE || !THREE.SVGLoader) return;
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(28, 1080 / 640, 0.1, 100);
+  camera.position.set(0, 0, 21);
+
+  // ambiente "cromo anni 2000": cielo chiaro, orizzonte nero netto, terra calda, una striscia fluo
+  const env = document.createElement("canvas"); env.width = 1024; env.height = 512;
+  const e = env.getContext("2d");
+  const grad = e.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0.00, "#8e9aae");
+  grad.addColorStop(0.22, "#f6f8fb");
+  grad.addColorStop(0.44, "#e6eaf0");
+  grad.addColorStop(0.56, "#b3bbc7");
+  grad.addColorStop(0.60, "#f2f4f7");
+  grad.addColorStop(0.615, "#0b0b0c");
+  grad.addColorStop(0.66, "#241f1b");
+  grad.addColorStop(0.78, "#7a6754");
+  grad.addColorStop(1.00, "#2a2521");
+  e.fillStyle = grad; e.fillRect(0, 0, 1024, 512);
+  e.fillStyle = "#ce0202"; e.fillRect(0, 345, 1024, 8);
+  e.fillStyle = "#ffffff"; // riflessi di studio
+  [[120, 90, 160, 40], [560, 70, 90, 120], [820, 140, 140, 30]].forEach(([x, y, w, h]) => e.fillRect(x, y, w, h));
+  const envTex = new THREE.CanvasTexture(env);
+  envTex.mapping = THREE.EquirectangularReflectionMapping;
+  envTex.encoding = THREE.sRGBEncoding;
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromEquirectangular(envTex).texture;
+  envTex.dispose(); pmrem.dispose();
+
+  const sym = document.getElementById("logo");
+  const chrome = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.06 });
+  // faccia frontale: bande del cromo + linee di dettaglio del logo (stella compresa) disegnate come nel 2D
+  const [vx, vy, vw, vh] = sym.getAttribute("viewBox").split(" ").map(Number);
+  const tw = 2048, th = Math.round(tw * vh / vw);
+  const fc = document.createElement("canvas"); fc.width = tw; fc.height = th;
+  const f = fc.getContext("2d"), bg = f.createLinearGradient(0, 0, 0, th);
+  [[0, "#ffffff"], [0.28, "#dde4ee"], [0.44, "#8d99ab"], [0.5, "#1b1e24"], [0.53, "#3a3029"], [0.6, "#b99c7c"], [0.74, "#f3e6d2"], [0.88, "#ffffff"], [1, "#aeb6c2"]]
+    .forEach(([o, c]) => bg.addColorStop(o, c));
+  f.fillStyle = bg; f.fillRect(0, 0, tw, th);
+  // fori veri: le linee di dettaglio (interno della O, segni sulle lettere) diventano buchi nella geometria,
+  // con le loro pareti cromate. Il logo è un solido pieno da ogni angolazione, non si vede mai dentro.
+  const L = new THREE.SVGLoader();
+  const parseD = (el) => L.parse(`<svg xmlns="http://www.w3.org/2000/svg">${el.outerHTML}</svg>`).paths[0].subPaths;
+  const details = [...sym.querySelectorAll("path.d")];
+  // la stella è il contorno interno del primo dettaglio (l interno della O): non è un buco, diventa un solido a sé
+  // rimpicciolita attorno al suo centro, così resta un vuoto netto dentro la O e la stella si legge sospesa
+  const starRaw = parseD(details[0])[1].getPoints();
+  const sc = new THREE.Box2().setFromPoints(starRaw).getCenter(new THREE.Vector2());
+  const starPts = starRaw.map((p) => new THREE.Vector2(sc.x + (p.x - sc.x) * 0.9, sc.y + (p.y - sc.y) * 0.9));
+  // l'interno della O: un unico foro che racchiude la mezzaluna e lo spazio della stella,
+  // così la stella non tocca mai la O e resta sospesa nel vuoto
+  const hull = (P) => {
+    P = P.map((p) => [p.x, p.y]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [], up = [];
+    for (const p of P) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); }
+    for (const p of P.slice().reverse()) { while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); }
+    return lo.slice(0, -1).concat(up.slice(0, -1));
+  };
+  const inPoly = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const a = poly[i], b = poly[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; };
+  const oSub = parseD(details[0]);
+  const oHole = hull([...oSub[0].getPoints(), ...oSub[1].getPoints()]);
+  const holes = [new THREE.Path(oHole.map(([x, y]) => new THREE.Vector2(x, y)))];
+  details.forEach((el, di) => parseD(el).forEach((sp) => {
+    if (di === 0) return;
+    const pts = sp.getPoints();
+    if (pts.some((p) => inPoly(p.x, p.y, oHole))) return; // dettagli dentro la O (sulla stella): non servono
+    holes.push(new THREE.Path(pts));
+  }));
+  const faceTex = new THREE.CanvasTexture(fc);
+  faceTex.encoding = THREE.sRGBEncoding; faceTex.flipY = false;
+  faceTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  const face = new THREE.MeshStandardMaterial({ map: faceTex, metalness: 1, roughness: 0.1 });
+
+  // estrude il contorno delle lettere (con i fori), preso dal simbolo #logo già presente nella pagina
+  const letters = sym.querySelector("path.l");
+  const svgText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${sym.getAttribute("viewBox")}">${letters.outerHTML}</svg>`;
+  const data = new THREE.SVGLoader().parse(svgText);
+  const group = new THREE.Group();
+  const DEPTH = 42;
+  data.paths.forEach((p) => {
+    THREE.SVGLoader.createShapes(p).forEach((shape) => {
+      shape.holes.push(...holes);
+      const geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, curveSegments: 8, bevelEnabled: true, bevelThickness: 7, bevelSize: 1.5, bevelSegments: 4 });
+      // UV delle facce = coordinate del logo normalizzate 0..1, così la texture combacia col disegno
+      const uv = geo.attributes.uv, cap = geo.groups[0].count;
+      for (let i = 0; i < cap; i++) uv.setXY(i, (uv.getX(i) - vx) / vw, (uv.getY(i) - vy) / vh);
+      group.add(new THREE.Mesh(geo, [face, chrome]));
+    });
+  });
+  // stella solida: più spessa delle lettere, sporge davanti e dietro
+  const starFace = new THREE.MeshStandardMaterial({ map: faceTex, metalness: 1, roughness: 0.08 });
+  const starGeo = new THREE.ExtrudeGeometry(new THREE.Shape(starPts), { depth: DEPTH + 30, curveSegments: 8, bevelEnabled: true, bevelThickness: 9, bevelSize: 2, bevelSegments: 5 });
+  const suv = starGeo.attributes.uv;
+  for (let i = 0; i < starGeo.groups[0].count; i++) suv.setXY(i, (suv.getX(i) - vx) / vw, (suv.getY(i) - vy) / vh);
+  const star = new THREE.Mesh(starGeo, [starFace, chrome]);
+  star.position.z = -15;
+  group.add(star);
+  // SVG ha la y verso il basso: ribalta e centra
+  group.scale.set(0.012, -0.012, 0.012);
+  const box = new THREE.Box3().setFromObject(group), c = box.getCenter(new THREE.Vector3());
+  group.position.sub(c);
+  const pivot = new THREE.Group(); pivot.add(group); scene.add(pivot);
+
+  function size() {
+    const w = cv.clientWidth, h = cv.clientHeight; if (!w) return;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  size(); addEventListener("resize", size);
+
+  // ciclo come il manifesto: un giro completo → si ferma di fronte e si appiattisce → riparte.
+  // Trascinandolo gira libero; lasciandolo si riallinea di fronte.
+  const TAU = Math.PI * 2, SPIN = 4.5, HOLD = 5, FLAT = 0.06, EASE = 0.7;
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  let phase = reduced ? "still" : "spin", pt = 0, from = 0, to = TAU, angle = 0;
+  let dragging = false, lastX = 0, visible = true, last = performance.now();
+  const goFront = () => { from = angle; to = Math.round(angle / TAU) * TAU; phase = "settle"; pt = 0; };
+  cv.addEventListener("pointerdown", (ev) => { dragging = true; phase = "drag"; lastX = ev.clientX; cv.setPointerCapture(ev.pointerId); });
+  cv.addEventListener("pointermove", (ev) => { if (!dragging) return; angle += (ev.clientX - lastX) * 0.01; lastX = ev.clientX; });
+  const release = () => { if (!dragging) return; dragging = false; goFront(); };
+  cv.addEventListener("pointerup", release);
+  cv.addEventListener("pointercancel", release);
+  new IntersectionObserver(([en]) => (visible = en.isIntersecting)).observe(cv);
+
+  function step(dt) {
+    pt += dt;
+    let flat = 0;
+    if (phase === "spin") {
+      const k = Math.min(1, pt / SPIN);
+      angle = from + (to - from) * ease(k);
+      if (k >= 1) { phase = "hold"; pt = 0; angle = to; }
+    } else if (phase === "settle") {
+      const k = Math.min(1, pt / 0.8);
+      angle = from + (to - from) * ease(k);
+      if (k >= 1) { phase = "hold"; pt = 0; angle = to; }
+    } else if (phase === "hold") {
+      flat = Math.min(1, pt / EASE, (HOLD - pt) / EASE);
+      if (pt >= HOLD) { phase = "spin"; pt = 0; from = angle; to = angle + TAU; }
+    } else if (phase === "still") {
+      flat = 1;
+    }
+    const e = ease(Math.max(0, Math.min(1, flat)));
+    pivot.rotation.y = angle;
+    pivot.scale.z = 1 + (FLAT - 1) * e;
+    const tilt = phase === "spin" || phase === "drag" ? -0.06 : 0;
+    pivot.rotation.x += (tilt - pivot.rotation.x) * 0.08;
+  }
+  function render() { renderer.render(scene, camera); }
+  step(0); render();
+  wrap.classList.add("ready");
+  (function loop(now) {
+    const tNow = now || performance.now();
+    const dt = Math.min(0.05, (tNow - last) / 1000); last = tNow;
+    if (visible) { step(dt); render(); }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+// manifesto 3D: tante copie ritagliate dell'immagine, impilate una dietro l'altra, formano un blocco solido.
+// Faccia davanti e dietro in rosso pieno, lo spessore più scuro. Gira come il logo e si può trascinare.
+(function manifesto3d() {
+  const fig = document.querySelector(".manifesto-art"), img = fig && fig.querySelector("img");
+  if (!fig || !window.THREE) return;
+  const cv = document.createElement("canvas");
+  cv.className = "manifesto-3d"; cv.setAttribute("aria-hidden", "true");
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0, 13.5);
+
+  const AR = 1164 / 1560, H = 6.2, W = H * AR, LAYERS = 64, DEPTH = 0.45;
+  const tex = new THREE.TextureLoader().load("manifesto.png", () => { fig.classList.add("ready"); });
+  tex.encoding = THREE.sRGBEncoding;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  const geo = new THREE.PlaneGeometry(W, H);
+  const pivot = new THREE.Group(); scene.add(pivot);
+  for (let i = 0; i < LAYERS; i++) {
+    const edge = i === 0 || i === LAYERS - 1;
+    const k = i / (LAYERS - 1);
+    // spessore: dal rosso pieno verso un rosso scuro al centro, così si legge il volume
+    const shade = edge ? 1 : 0.38 + 0.18 * Math.abs(k - 0.5) * 2;
+    const mat = new THREE.MeshBasicMaterial({ map: tex, alphaTest: 0.4, side: THREE.DoubleSide, color: new THREE.Color(shade, shade, shade) });
+    const m = new THREE.Mesh(geo, mat);
+    m.position.z = DEPTH / 2 - k * DEPTH;
+    pivot.add(m);
+  }
+
+  function size() {
+    const w = fig.clientWidth, h = Math.round(w / AR);
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  fig.appendChild(cv); size(); addEventListener("resize", size);
+
+  // ciclo: un giro completo → si ferma di fronte e si appiattisce per la lettura → riparte.
+  // Trascinandolo gira libero; lasciandolo si riallinea di fronte.
+  const TAU = Math.PI * 2, SPIN = 4.5, HOLD = 6, FLAT = 0.06, EASE = 0.7;
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  let phase = reduced ? "still" : "spin", pt = 0, from = 0, to = TAU, angle = 0;
+  let dragging = false, lastX = 0, visible = false, last = performance.now();
+  pivot.scale.z = reduced ? FLAT : 1;
+  const goFront = () => { from = angle; to = Math.round(angle / TAU) * TAU; phase = "settle"; pt = 0; };
+  cv.addEventListener("pointerdown", (ev) => { dragging = true; phase = "drag"; lastX = ev.clientX; cv.setPointerCapture(ev.pointerId); });
+  cv.addEventListener("pointermove", (ev) => { if (!dragging) return; angle += (ev.clientX - lastX) * 0.01; lastX = ev.clientX; });
+  const release = () => { if (!dragging) return; dragging = false; goFront(); };
+  cv.addEventListener("pointerup", release);
+  cv.addEventListener("pointercancel", release);
+  new IntersectionObserver(([en]) => (visible = en.isIntersecting)).observe(cv);
+
+  function step(dt) {
+    pt += dt;
+    let flat = 0; // 0 = spessore pieno, 1 = piatto
+    if (phase === "spin") {
+      const k = Math.min(1, pt / SPIN);
+      angle = from + (to - from) * ease(k);
+      if (k >= 1) { phase = "hold"; pt = 0; angle = to; }
+    } else if (phase === "settle") {
+      const k = Math.min(1, pt / 0.8);
+      angle = from + (to - from) * ease(k);
+      flat = 0;
+      if (k >= 1) { phase = "hold"; pt = 0; angle = to; }
+    } else if (phase === "hold") {
+      flat = Math.min(1, pt / EASE, (HOLD - pt) / EASE);
+      if (pt >= HOLD) { phase = "spin"; pt = 0; from = angle; to = angle + TAU; }
+    } else if (phase === "still") {
+      flat = 1;
+    }
+    flat = Math.max(0, Math.min(1, flat));
+    const e = ease(flat);
+    pivot.rotation.y = angle;
+    pivot.scale.z = 1 + (FLAT - 1) * e;
+    // durante la rotazione una leggera inclinazione, di fronte perfettamente dritto
+    const tilt = phase === "spin" || phase === "drag" ? -0.06 : 0;
+    pivot.rotation.x += (tilt - pivot.rotation.x) * 0.08;
+  }
+  function render() { renderer.render(scene, camera); }
+  step(0); render();
+  (function loop(now) {
+    const dt = Math.min(0.05, ((now || performance.now()) - last) / 1000); last = now || performance.now();
+    if (visible) { step(dt); render(); }
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+
+</body>
+</html>
